@@ -1,5 +1,5 @@
 # First_Step_Muts
-Code supplement for "Predicting First-Step Mutations in Randomly Assembled Microbial Communities"
+Code supplement for "Predicting the First Steps of Evolution in Randomly Assembled Microbial Communities"
 
 COMMUNITY ASSEMBLY FUNCTIONS
 
