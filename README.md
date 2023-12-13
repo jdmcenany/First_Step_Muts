@@ -2,6 +2,7 @@
 Code supplement for "Predicting First-Step Mutations in Randomly Assembled Microbial Communities"
 
 COMMUNITY ASSEMBLY FUNCTIONS
+
 These functions generate assembled communities with mutations and output parameters describing the resulting communities into a "Results" folder.
 
 single_step_mut: Generate an assembled community at equilibrium, introduce a single mtuation, and allow the community to re-equilibrate. Allows for knock-out mutants, knock-in mutants, and knock-out mutants without extinctions (i.e., allowing for "rescued species").
@@ -12,6 +13,7 @@ single_step_mut_Rp: Alternative community assembly procedure used in Fig S6 (lef
 
 
 HELPER FUNCTIONS
+
 These are functions internally called by the functions above.
 
 findEquilibrium, findEquilibriumTikhonov: Functions for calculating the community equilibrium according to an optimization procedure, based on the consumer resource model discussed in the main text or in Tikhonov & Monasson 2017.
