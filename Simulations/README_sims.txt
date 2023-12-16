@@ -4,6 +4,8 @@ COMMUNITY ASSEMBLY FUNCTIONS
 
 These functions generate assembled communities with mutations and output parameters describing the resulting communities into a "Results" folder.
 
+comm_assembly: Generate an assembled community at equilibrium without mutation. This function allows either for a community to be generated either with explicit community assembly parameters (S and epsilon), or with implicit community assembly parameters by setting a target S* (astar = S*/R, phi = S*/S).
+
 single_step_mut: Generate an assembled community at equilibrium, introduce a single mtuation, and allow the community to re-equilibrate. Allows for knock-out mutants, knock-in mutants, and knock-out mutants without extinctions (i.e., allowing for "rescued species").
 
 single_step_mut_alt: Alternative community assembly procedures used in Figs S2 and S4. In particular, this function is used to generate communities with Dirichlet-distributed resource usage (as opposed to binary), or communities subject to the consumer resource model in Tikhonov & Monasson 2017.
