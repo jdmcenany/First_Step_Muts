@@ -21,7 +21,7 @@ Each section will produce a panel of each figure, reading in data from the Proce
 
 GOOGLE DRIVE DATA DIRECTORY:
 
-https://drive.google.com/drive/folders/16TcTOPIe_2_bj7xwDlMVFV0MQIGzzt-d?usp=sharing
+https://drive.google.com/drive/folders/16TcTOPIe_2_bj7xwDlMVFV0MQIGzzt-d
 
 Raw_Results/
 
