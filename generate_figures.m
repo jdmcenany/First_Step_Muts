@@ -491,9 +491,9 @@ set(gca,'YScale','log')
 set(gca,'FontSize',20)
 yticks([])
 
-%%
+%% FIGURE S1: DFE for single organism
 clear all
-load('Processsed_Results/Fig5E_data.mat')
+load('Processed_Results/Fig5E_data.mat')
 
 figure()
 means = zeros(19,1);
@@ -518,11 +518,320 @@ legend({'Multi-step','Single-step'},'Location','southeast')
 set(gca,'FontSize',20)
 ylim([0 0.8])
 
+%% FIGURE S2A: DFE for Tikhonov & Monasson consumer resource model
+clear all
+load('Processed_Results/FigS2A_data.mat')
+figure()
+p1=plot((edges(2:end)+edges(1:end-1))/2,h1.Values,'r.','MarkerSize',10);
+hold on
+
+p2=plot((edges(2:end)+edges(1:end-1))/2,h2.Values,'b.','MarkerSize',10);
+plot(x_vals,S_inv_vals1,'k','LineWidth',1.75)
+hold on
+plot(-x_vals,S_inv_vals1,'k','LineWidth',1.75)
+plot([0 0],[0.02 10^1],'k--','LineWidth',0.75)
 
 
+ylim([0.02 10])
+xlim([-0.2 0.2])
+ylabel('Probability density','FontSize',25)
+xlabel('Invasion fitness','FontSize',25)
+legend([p1 p2],{'Knock-Out','Knock-In'})
+set(gca,'YScale','log')
+set(gca,'FontSize',20)
+
+%% FIGURE S2B: P(coex) for knockins and knockouts in Tikhonov model
+clear all
+load('Processed_Results/FigS2B_data.mat')
+figure()
+
+astarvals = 0.2:0.1:0.9;
+astarvals = [astarvals 0.99 0.99];
+figure()
+p1=plot(alpha_star_vals,pcoex_vals1,'r','LineWidth',1.75);
+hold on
+p2=plot(alpha_star_vals,pcoex_vals2,'b','LineWidth',1.75);
+p3=plot(alpha_star_vals,pcoex_vals3,'k--','LineWidth',1.25);
+
+astar_actual1(end-4:end-1) = [];
+astar_actual2(end-4:end-1) = [];
+tot1(end-4:end-1) = [];
+tot2(end-4:end-1) = [];
+coex1(end-4:end-1) = [];
+coex2(end-4:end-1) = [];
+
+p4=plot(astar_actual1./tot1,coex1./tot1,'kx','MarkerSize',10,'LineWidth',1.75);
+p5=plot(astar_actual2./tot2,coex2./tot2,'k+','MarkerSize',10,'LineWidth',1.75);
+legend([p3 p4 p5],{'Null model','Knock-Out','Knock-In'})
 
 
+xlabel('S*/R','FontSize',25)
+ylabel('P(Coexistence)','FontSize',25)
+set(gca,'FontSize',20)
+ylim([0 0.5])
 
+%% Figure S2C: Resource availabilities for Dirichlet uptake rates
+
+clear all
+load('Processed_Results/FigS2C_data.mat')
+figure()
+p1=plot((edges(1:end-1)+edges(2:end))/2,h1Vals,'b.','MarkerSize',10);
+hold on
+p2=plot((edges(1:end-1)+edges(2:end))/2,h2Vals,'k.','MarkerSize',10);
+plot(x_vals,S_inv_vals1,'k','LineWidth',1.75)
+plot(x_vals,S_inv_vals2,'k','LineWidth',1.75)
+set(gca,'YScale','log')
+ylim([10^-2.5 10^2])
+xlim([0.5 1.5])
+xlabel('Resource availability','FontSize',25)
+ylabel('Probability density','FontSize',25)
+legend([p1 p2],{'S*/R = 0.5','S*/R = 0.8'})
+set(gca,'FontSize',20)
+
+%% Figure S2D: P(coex) for Dirichlet uptake rates
+
+clear all
+figure()
+load('Processed_Results/FigS2D_data.mat')
+
+p1=plot(alpha_star_vals,cprob,'k','LineWidth',1.75);
+hold on
+
+p3=plot(astar_actual./tot,coex./tot,'k.','MarkerSize',25);
+xlabel('Niche saturation','FontSize',25)
+ylabel('P(Coexistence)','FontSize',25)
+set(gca,'FontSize',20)
+ylim([0 0.5])
+
+%% FIGURE S3: "Simultaneous assembly" simulations without extinction
+clear all
+load('Processed_Results/FigS3_data.mat')
+
+figure(1)
+p1=plot(alpha_star_vals,cprob,'k','LineWidth',1.75);
+hold on
+
+
+%p2=plot(astarvals,coex1./tot1,'k.','MarkerSize',25);
+p3=errorbar(astarvals,coex1./tot1,sqrt(coex1)./tot1,'k.','LineWidth',1,'MarkerSize',25);
+p4=errorbar(astarvals,coex2./tot2,sqrt(coex2)./tot2,'r.','LineWidth',0.5,'MarkerSize',20);
+
+xlabel('S*/R','FontSize',25)
+ylabel('P(Coexistence)','FontSize',25)
+legend([p3 p4],{'With extinctions','Without extinctions'})
+set(gca,'FontSize',20)
+ylim([0 0.4])
+
+%% FIGURE S4: P(coex) for knockout and global-effect mutations
+clear all
+load('Processed_Results/FigS4_left_data.mat')
+figure()
+subplot(1,2,1)
+
+plot(alpha_star_vals,cprob,'k','LineWidth',1.75)
+hold on
+p1=plot(astar_actual1./tot1,coex1./tot1,'k.','MarkerSize',20);
+p2=plot(astar_actual2./tot2,coex2./tot2,'ko','MarkerSize',7);
+
+xlabel('Niche saturation','FontSize',25)
+ylabel('P(Coexistence)','FontSize',25)
+legend([p1 p2],{'Knock-out mutation','Global mutation'})
+set(gca,'FontSize',20)
+set(gca,'YScale','log')
+
+ylim([0.0005 0.5])
+
+subplot(1,2,2)
+clear all
+load('Processed_Results/FigS4_right_data.mat')
+
+plot(0:0.01:1, (0:0.01:1).^2 *cprob,'k','LineWidth',1.75)
+hold on
+p1=plot(gammavals,coex1./tot1,'k.','MarkerSize',20);
+p2=plot(gammavals,coex2./tot2,'ko','MarkerSize',7);
+
+xlabel('Mutation effect size','FontSize',25)
+legend([p1 p2],{'Knock-out mutation','Global mutation'})
+set(gca,'FontSize',20)
+set(gca,'YScale','log')
+
+ylim([0.0005 0.5])
+yticks([])
+
+%% FIGURE S5: Invasion fitness vs. parent rel. abun. scatterplot
+clear all
+load('Processed_Results/FigS5_data.mat')
+figure()
+
+phi = 0.1;
+
+R0 = 40;
+R = 200;
+phi = 0.1;
+lmbda = sqrt(2)*erfinv(1-2*phi);
+alpha_star = 0.8;
+S = R*alpha_star/phi;
+
+alpha = alpha_star/phi;
+V_tot = (1-R0/R)*(2*(1 - alpha*I_func(lmbda))./(-alpha .*dI_func(lmbda)) - lmbda);
+
+q = V_tot.^2.*alpha*I_func(lmbda)*R/(R0*(1-R0/R));
+sigma_inv = sqrt(q/R)/R0;
+
+slope1 = -dI_func(lmbda)*V_tot*S/(2*R0^2*(1-R0/R));
+Rs = 0:0.00001:max(rel_abuns);
+sinv_vals = Rs*slope1/sigma_inv;
+
+scatter1 = scatter(s_invs(~coex_flags)/sigma_inv,rel_abuns(~coex_flags),'MarkerFaceColor',[0 0 0],'MarkerEdgeColor',[1 1 1]); 
+hold on
+scatter2 = scatter(s_invs(coex_flags)/sigma_inv,rel_abuns(coex_flags),'MarkerFaceColor',[1 0 0],'MarkerEdgeColor',[1 1 1]); 
+scatter1.MarkerFaceAlpha = 0.05;
+scatter1.MarkerEdgeAlpha = 0;
+scatter2.MarkerFaceAlpha = 0.2;
+scatter2.MarkerEdgeAlpha = 0;
+
+plot(s_invs(~coex_flags)/sigma_inv,rel_abuns(~coex_flags),'Color',[0.75 0.75 0.75 0.1],'LineStyle','none','Marker','.','MarkerSize',5)
+hold on
+plot(s_invs(coex_flags)/sigma_inv,rel_abuns(coex_flags),'.','Color',[1 0 0 0.1],'MarkerSize',5)
+plot(sinv_vals,Rs,'Color',[0.25 0.25 1],'LineWidth',2.00,'LineStyle','--')
+
+
+xlabel('(Invasion fitness)/\sigma_{inv}','FontSize',25)
+ylabel('Parent relative abundance','FontSize',25)
+legend({'Replacement','Coexistence'})
+set(gca,'FontSize',20)
+
+axis square
+ylim([0 0.05])
+xlim([0 5.5])
+
+%% FIGURE S6A, S6B: P(Coex) for non-uniform resource supply and use
+clear all
+figure()
+load('Processed_Results/FigS6A_data');
+
+plot(0.01:0.01:0.09,coex1./tot1,'k.','MarkerSize',20)
+hold on
+plot(sigmaR2_vals, cprob,'k','LineWidth',1.75)
+ylim([0 0.05])
+xlabel('\sigma_\kappa^2','FontSize',25)
+ylabel('P(Coex)','FontSize',25)
+
+set(gca,'FontSize',20)
+
+clear all
+figure()
+load('Processed_Results/FigS6B_data');
+
+
+plot(10:5:145,coex2./tot2,'k.','MarkerSize',20)
+hold on
+plot(Rp_vals, cprob,'k','LineWidth',1.75)
+xlim([0 150])
+ylim([0 0.35])
+set(gca,'FontSize',20)
+xlabel('R_P','FontSize',25)
+ylabel('P(Coex)','FontSize',25)
+
+%% FIGURE S7: Checks for numerical consistency
+clear all
+load('Processed_Results/FigS7_data');
+
+figure()
+p1=plot(threshold_vals,putative_survivors(1,:)./tots(1,:)/200,'Color',[0 0 0],'LineWidth',1.75);
+hold on
+p2=plot(threshold_vals,putative_survivors(2,:)./tots(2,:)/200,'Color',[0 0 0.7],'LineWidth',1.75);
+p3=plot(threshold_vals,putative_survivors(3,:)./tots(3,:)/200,'Color',[0.7 0.7 1],'LineWidth',1.75);
+
+plot([1e-3 1e-3],[0 1.5],'k--','LineWidth',0.75)
+plot([1e-11 10],[0.5 0.5],'k:','LineWidth',1)
+plot([1e-11 10],[0.8 0.8],'k:','LineWidth',1)
+plot([1e-11 10],[0.99 0.99],'k:','LineWidth',1)
+
+
+legend([p1 p2 p3],{'S*/R = 0.5','S*/R = 0.8','S*/R = 0.99'},'Location','northwest')
+
+
+set(gca,'XScale','log')
+xlabel('Scaled extinction threshold','FontSize',25)
+ylabel('(No. putative survivors)/R','FontSize',25)
+set(gca,'FontSize',20)
+ylim([0 1.5])
+
+figure()
+
+all_deltas1 = zeros(length(all_deltas{1,1}),2);
+all_deltas1(:,1) = all_deltas{1,1};
+all_deltas1(:,2) = all_deltas{1,2};
+all_deltas2 = zeros(length(all_deltas{2,1}),2);
+all_deltas2(:,1) = all_deltas{2,1};
+all_deltas2(:,2) = all_deltas{2,2};
+all_deltas3 = zeros(length(all_deltas{3,1}),2);
+all_deltas3(:,1) = all_deltas{3,1};
+all_deltas3(:,2) = all_deltas{3,2};
+
+subplot(1,3,1)
+scatter1 = scatter(-all_deltas1(~ext_flags{1},1),-all_deltas1(~ext_flags{1},2),'MarkerFaceColor',[0 0 0],'MarkerEdgeColor',[1 1 1]); 
+hold on
+scatter2 = scatter(-all_deltas1(~~ext_flags{1},1),-all_deltas1(~~ext_flags{1},2),'MarkerFaceColor',[1 0 0],'MarkerEdgeColor',[1 1 1]); 
+scatter1.MarkerFaceAlpha = 0.01;
+scatter1.MarkerEdgeAlpha = 0;
+scatter2.MarkerFaceAlpha = 0.01;
+scatter2.MarkerEdgeAlpha = 0;
+plot([10^-16 0.1],[10^-16 0.1],'k--','LineWidth',1.75)
+
+set(gca,'XScale','log')
+set(gca,'YScale','log')
+
+ylabel('Resource deficit post-invasion','FontSize',25)
+set(gca,'FontSize',20)
+
+xlim([10^-16 10^-5])
+ylim([10^-16 0.1])
+xticks([10^-14 10^-10 10^-6])
+yticks([10^-15 10^-10 10^-5])
+
+subplot(1,3,2)
+scatter1 = scatter(-all_deltas2(~ext_flags{2},1),-all_deltas2(~ext_flags{2},2),'MarkerFaceColor',[0 0 0],'MarkerEdgeColor',[1 1 1]); 
+hold on
+scatter2 = scatter(-all_deltas2(~~ext_flags{2},1),-all_deltas2(~~ext_flags{2},2),'MarkerFaceColor',[1 0 0],'MarkerEdgeColor',[1 1 1]); 
+scatter1.MarkerFaceAlpha = 0.01;
+scatter1.MarkerEdgeAlpha = 0;
+scatter2.MarkerFaceAlpha = 0.01;
+scatter2.MarkerEdgeAlpha = 0;
+plot([10^-16 0.1],[10^-16 0.1],'k--','LineWidth',1.75)
+
+set(gca,'XScale','log')
+set(gca,'YScale','log')
+
+xlabel('Resource deficit pre-invasion','FontSize',25)
+set(gca,'FontSize',20)
+
+xlim([10^-16 10^-5])
+ylim([10^-16 0.1])
+yticks([])
+xticks([10^-14 10^-10 10^-6])
+
+
+subplot(1,3,3)
+scatter1 = scatter(-all_deltas3(~ext_flags{3},1),-all_deltas3(~ext_flags{3},2),'MarkerFaceColor',[0 0 0],'MarkerEdgeColor',[1 1 1]); 
+hold on
+scatter2 = scatter(-all_deltas3(~~ext_flags{3},1),-all_deltas3(~~ext_flags{3},2),'MarkerFaceColor',[1 0 0],'MarkerEdgeColor',[1 1 1]); 
+scatter1.MarkerFaceAlpha = 0.01;
+scatter1.MarkerEdgeAlpha = 0;
+scatter2.MarkerFaceAlpha = 0.01;
+scatter2.MarkerEdgeAlpha = 0;
+plot([10^-16 0.1],[10^-16 0.1],'k--','LineWidth',1.75)
+
+set(gca,'XScale','log')
+set(gca,'YScale','log')
+
+set(gca,'FontSize',20)
+
+xlim([10^-16 10^-5])
+ylim([10^-16 0.1])
+yticks([])
+xticks([10^-14 10^-10 10^-6])
 
 function init_species = find_init_species(ind,parentage, original_N)
     if ind <= original_N
