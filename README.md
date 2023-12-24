@@ -1,8 +1,6 @@
 # First_Step_Muts
 Code supplement for "Predicting the First Steps of Evolution in Randomly Assembled Microbial Communities"
 
-This repository will be updated with data and processing code used to generate supplementary figures soon.
-
 FOLDER DIRECTORY:
 
 Simulations/
