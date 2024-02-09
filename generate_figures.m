@@ -1,5 +1,6 @@
 %% FIGURE 2B: Species sampled vs. number of survivors
 clear all
+close all
 load('Processed_Results/Fig2B_data.mat')
 figure()
 
@@ -136,6 +137,7 @@ yticks([0.01 0.02 0.04 0.08 0.16 0.32])
 %% FIGURE 3B: P(coex) vs. R0
 clear all
 load('Processed_Results/Fig3B_data.mat')
+figure()
 plot(R0,cprob1,'Color',[0 0 0.75],'LineWidth',2)
 hold on
 plot(R0,cprob2,'k','LineWidth',2)
@@ -303,7 +305,6 @@ plot_ind = [760 409 168];
 
 
 species0 = 1:8000;
-figure()
 load("Raw_Results/Multi_Step_Sims/mstep_astar_0.9_phi_0.1_R0_20_R_100_dx_0_3.mat")
 last_ind = find(species_info(:,1),1);
 
@@ -423,7 +424,7 @@ load('Processed_Results/Fig5B_data.mat')
 figure()
 
 
-for i = 1:9
+for i = 1:size(N_species,1)
     subplot(1,2,2)
     plot(N_strains(i,1:find(~N_strains(i,:),1)-1) - N_species(i,1:find(~N_species(i,:),1)-1),'Color',[0.5 0.5 0.5],'LineWidth',0.75)
     hold on
@@ -547,7 +548,6 @@ figure()
 
 astarvals = 0.2:0.1:0.9;
 astarvals = [astarvals 0.99 0.99];
-figure()
 p1=plot(alpha_star_vals,pcoex_vals1,'r','LineWidth',1.75);
 hold on
 p2=plot(alpha_star_vals,pcoex_vals2,'b','LineWidth',1.75);
@@ -607,7 +607,7 @@ ylim([0 0.5])
 clear all
 load('Processed_Results/FigS3_data.mat')
 
-figure(1)
+figure()
 p1=plot(alpha_star_vals,cprob,'k','LineWidth',1.75);
 hold on
 
