@@ -1,7 +1,7 @@
 # First_Step_Muts
 Code supplement for "Predicting the First Steps of Evolution in Randomly Assembled Microbial Communities."
 
-All files are either MATLAB executables or .m files containing variables to be read into MATLAB. When run, the code should read in simulation results and reproduce all figures in the paper, as described below.
+All files are either MATLAB executables or .mat files containing variables to be read into MATLAB. When run, the code should read in simulation results and reproduce all figures in the paper, as described below.
 
 System Requirements: MATLAB (tested in R2022a)
 
