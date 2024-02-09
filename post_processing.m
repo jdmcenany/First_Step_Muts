@@ -1,4 +1,3 @@
-tic
 %% FIGURE 2B: Number of survivors vs. species sampled
 clear all
 
@@ -2060,7 +2059,6 @@ for i = 1:3
 end
 
 save('Processed_Results/FigS7_data','threshold_vals','putative_survivors','tots','all_deltas','ext_flags','par_flags');
-toc
 
 function L = lmbda_func(lmbda, alpha, epsilon, R0, R)
     V_tot = (1-R0/R)*(2*(1 - alpha.*I_func(lmbda))./(-alpha .*dI_func(lmbda)) - lmbda);
