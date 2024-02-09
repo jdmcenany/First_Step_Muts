@@ -13,9 +13,13 @@ Functions which can be called to produce raw simulation results.
 
 FILE DIRECTORY:
 
-data_processing.m
+post_processing.m
 
-Each section will read in raw simulation results (in the Raw_Results folder) and output post-processed data suitable for figure generation (in the Processed_Results folder). This demonstrates how data was analyzed and theory curves generated for each figure. Expected runtime on a standard desktop is several hours for the full Raw_Results dataset and about a minute for the truncated Raw_Results_Small dataset.
+Each section will read in raw simulation results (in the Raw_Results folder) and output post-processed data suitable for figure generation (in the Processed_Results folder). This demonstrates how data was analyzed and theory curves generated for each figure. Expected runtime on a standard desktop is several hours for the full Raw_Results dataset.
+
+post_processing_small.m
+
+Same as above, but for truncated raw results (in the Raw_Results_Small folder). Suitable for analysis of the code, but reduced replicates are insufficient to generate accurate figures. Expected runtime is about a minute.
 
 generate_figures.m
 
