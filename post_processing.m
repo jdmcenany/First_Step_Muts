@@ -1,3 +1,4 @@
+tic
 %% FIGURE 2B: Number of survivors vs. species sampled
 clear all
 
@@ -221,6 +222,8 @@ sigma_inv4 = sqrt(q/R)/R0;
 
 
 all_stds = zeros(19,2,2,1000);
+astar_actual = zeros(19,2,2);
+astar_tots = zeros(19,2,2);
 all_inds = ones(19,2,2);
 astar_vals = 0.05:0.05:0.95;
 phi_vals = [0.1 0.5];
@@ -257,6 +260,9 @@ for i = 1:19
                 all_fitnesses(ind:ind+length(inv_fitness)-1) = inv_fitness*exp(budgets(j));
                 ind = ind+length(inv_fitness);
             end
+
+            astar_actual(i,1,i2) = astar_actual(i,1,i2) + sum(survivors)/200;
+            astar_tots(i,1,i2) = astar_tots(i,1,i2) + 1;
 
             all_stds(i,1,i2,all_inds(i,1,i2)) = std(all_fitnesses(1:ind-1));
             all_inds(i,1,i2) = all_inds(i,1,i2)+1;
@@ -297,15 +303,20 @@ for i = 1:19
                 ind = ind+length(inv_fitness);
             end
 
+            astar_actual(i,2,i2) = astar_actual(i,2,i2) + sum(survivors)/200;
+            astar_tots(i,2,i2) = astar_tots(i,2,i2) + 1;
+
             all_stds(i,2,i2,all_inds(i,2,i2)) = std(all_fitnesses(1:ind-1));
             all_inds(i,2,i2) = all_inds(i,2,i2)+1;
         end
     end
 end
 
+astar_actual = astar_actual./astar_tots;
+
 sigma_invs = mean(all_stds,4);
 
-save('Processed_Results/Fig2D_data','astar_vals','alpha_star','sigma_invs','sigma_inv1','sigma_inv2','sigma_inv3','sigma_inv4')
+save('Processed_Results/Fig2D_data','astar_actual','astar_vals','alpha_star','sigma_invs','sigma_inv1','sigma_inv2','sigma_inv3','sigma_inv4')
 
 %% FIGURE 2E: Monoculture-community fitness correlation vs. niche saturation
 clear all
@@ -316,6 +327,8 @@ R0 = 40;
 R = 200;
 fitnesses_mono = zeros(9,5,R^2*1000);
 fitnesses_comm = zeros(9,5,R^2*1000);
+astar_actual = zeros(9,5);
+astar_tots = zeros(9,5);
 inds = ones(9,5);
 
 
@@ -350,9 +363,13 @@ for i = 1:9
                 fitnesses_mono(i,i2,inds(i,i2):inds(i,i2)+length(inv_fitness)-1) = (1-organisms{i3}.capacity(find(enzymes(j,:)))/mean(organisms{i3}.capacity))/sum(enzymes(j,:));
                 inds(i,i2) = inds(i,i2)+length(inv_fitness);
             end
+
+            astar_actual(i,i2) = astar_actual(i,i2) + sum(survivors)/200;
+            astar_tots(i,i2) = astar_tots(i,i2) + 1;
         end
     end
 end
+astar_actual = astar_actual./astar_tots;
 
 close all
 all_corrs = zeros(9,5);
@@ -374,7 +391,7 @@ sigma_inv = sqrt(q/R)/R0;
 
 corr_theory = 1./sqrt(1 + R0^2*sigma_inv.^2./((1-alpha_star).^2.*sigmaR2_vals'));
 
-save('Processed_Results/Fig2E_data','astarvals','alpha_star','all_corrs','corr_theory')
+save('Processed_Results/Fig2E_data','astarvals','astar_actual','alpha_star','all_corrs','corr_theory')
 
 %% FIGURE 3A: P(coex) vs. niche saturation
 clear all
@@ -2059,6 +2076,7 @@ for i = 1:3
 end
 
 save('Processed_Results/FigS7_data','threshold_vals','putative_survivors','tots','all_deltas','ext_flags','par_flags');
+toc
 
 function L = lmbda_func(lmbda, alpha, epsilon, R0, R)
     V_tot = (1-R0/R)*(2*(1 - alpha.*I_func(lmbda))./(-alpha .*dI_func(lmbda)) - lmbda);
