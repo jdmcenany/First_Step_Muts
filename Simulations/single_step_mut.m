@@ -80,7 +80,7 @@ for i = 1:N_runs
         alphas = prop.enzymesInSpecies(survivors,:);
         fitnesses = prop.budget(survivors);
         alphas = alphas./sum(alphas,2);
-        inv_harvest = 1./harvest;
+        inv_harvest = prop.capacity'./(harvest*mean(prop.capacity));
         n_lsq = lsqnonneg(alphas', inv_harvest');
         n_lsq = n_lsq.*exp(-fitnesses);
         n_lsq = n_lsq/sum(n_lsq);
@@ -126,7 +126,7 @@ for i = 1:N_runs
         alphas = prop.enzymesInSpecies(survivors,:);
         fitnesses = prop.budget(survivors);
         alphas = alphas./sum(alphas,2);
-        inv_harvest = 1./harvest;
+        inv_harvest = prop.capacity'./(harvest*mean(prop.capacity));
         n_lsq = lsqnonneg(alphas', inv_harvest');
         n_lsq = n_lsq.*exp(-fitnesses);
         n_lsq = n_lsq/sum(n_lsq);
@@ -173,7 +173,7 @@ for i = 1:N_runs
         alphas = prop.enzymesInSpecies(survivors,:);
         fitnesses = prop.budget(survivors);
         alphas = alphas./sum(alphas,2);
-        inv_harvest = 1./harvest;
+        inv_harvest = prop.capacity'./(harvest*mean(prop.capacity));
         n_lsq = lsqnonneg(alphas', inv_harvest');
         n_lsq = n_lsq.*exp(-fitnesses);
         n_lsq = n_lsq/sum(n_lsq);
@@ -231,7 +231,7 @@ end
 fname = "Results/sstep_astar_" + string(alpha_star) + "_phi_" + string(phi) + "_R0_" + string(R0) + "_R_" + string(R) + "_dx_" + string(delta_x_old) + "_sigmaR2_" + string(sigma_R_sq) + "_muttype_" + string(mut_type) + "_" + string(task_id - id_out) + ".mat";
 
 %save(fname,'harvests','deltas','parent_inds','organisms','-v7.3')
-save(fname,'harvests','deltas','parent_inds','-v7.3')
+save(fname,'harvests','deltas','parent_inds','organisms','-v7.3')
 
 out = 0;
 end
