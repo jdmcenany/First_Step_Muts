@@ -1,4 +1,3 @@
-tic
 %% FIGURE 2B: Number of survivors vs. species sampled
 clear all
 
@@ -13,7 +12,7 @@ for i = 1:20
     for i2 = 1:4
         fname = "Raw_Results/Assembly_Sims/alpha_epsilon_params/comm_alpha_" + string(alpha_vals(i)) + "_epsilon_" + string(epsilon_vals(i2)) + "_R0_40_R_200_sigmaR2_0.mat";
         load(fname)
-        for j = 1:length(harvests)
+        for j = 1:1000
             h = harvests{j};
             d = deltas{j};
             astarvals(i,i2,j) = sum(d > -1e-3*std(h)/R0)/R;
@@ -94,7 +93,7 @@ ind_ki2 = 1;
 
 fname = "Raw_Results/Assembly_Sims/astar_phi_params/comm_astar_0.9_phi_0.1_R0_40_R_200_sigmaR2_0.mat";
 load(fname)
-for i = 1:length(harvests)
+for i = 1:1000
     h = harvests{i};
     h = length(h)*h/sum(h);
     enzymes = organisms{i}.enzymesInSpecies;
@@ -126,7 +125,7 @@ end
 
 fname = "Raw_Results/Assembly_Sims/astar_phi_params/comm_astar_0.5_phi_0.1_R0_40_R_200_sigmaR2_0.mat";
 load(fname)
-for i = 1:length(harvests)
+for i = 1:1000
     h = harvests{i};
     h = length(h)*h/sum(h);
     enzymes = organisms{i}.enzymesInSpecies;
@@ -414,7 +413,7 @@ R0=40;
 for i = 1:14
     fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_" + string(astarvals(i)) + "_phi_0.5_R0_40_R_200_dx_0_sigmaR2_0_muttype_-1.mat";
     load(fname)
-    for k = 1:length(harvests)
+    for k = 1:10000
         h = harvests{k,1};
         d = deltas{k,2};
         if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -430,7 +429,7 @@ end
 for i = 1:14
     fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_" + string(astarvals(i)) + "_phi_0.1_R0_40_R_200_dx_0_sigmaR2_0_muttype_-1.mat";
     load(fname)
-    for k = 1:length(harvests)
+    for k = 1:10000
         h = harvests{k,1};
         d = deltas{k,2};
         if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -490,7 +489,10 @@ R0_vals = [10 25 40 70 100 130 160 175 190];
 for i = 1:9
     fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_0.3_phi_0.1_R0_" + string(R0_vals(i)) + "_R_200_dx_0_sigmaR2_0_muttype_-1.mat";
     load(fname)
-    for k = 1:length(harvests)
+    if size(deltas,1) ~= 10000
+        size(deltas)
+    end
+    for k = 1:10000
         h = harvests{k,1};
         d = deltas{k,2};
         if d(end) < -1e-3*std(h(1-h>0))/R0_vals(i)
@@ -504,6 +506,9 @@ end
 for i = 1:9
     fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_0.8_phi_0.1_R0_" + string(R0_vals(i)) + "_R_200_dx_0_sigmaR2_0_muttype_-1.mat";
     load(fname)
+    if size(deltas,1) ~= 10000
+        size(deltas)
+    end
     for k = 1:size(deltas,1)
         h = harvests{k,1};
         d = deltas{k,2};
@@ -563,7 +568,7 @@ R0=40;
 for i = 1:11
     fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_0.3_phi_0.1_R0_40_R_200_dx_" +string(deltaxvals(i)) + "_sigmaR2_0_muttype_-1.mat";
     load(fname)
-    for k = 1:length(harvests)
+    for k = 1:10000
         h = harvests{k,1};
         d = deltas{k,2};
         if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -577,7 +582,7 @@ end
 for i = 1:11
     fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_0.8_phi_0.1_R0_40_R_200_dx_" +string(deltaxvals(i)) + "_sigmaR2_0_muttype_-1.mat";
     load(fname)
-    for k = 1:length(harvests)
+    for k = 1:10000
         h = harvests{k,1};
         d = deltas{k,2};
         if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -665,12 +670,12 @@ epsilon_vals = V_tot_vals.*sqrt(1 - alpha_vals.*I_func(lmbda));
 q_vals1 = (R/R0)*(V_tot_vals.^2 - epsilon_vals.^2)/(1-R0/R);
 delta_star_vals = sqrt(q_vals1/R)/R0;
 
-S_inv_all = zeros(5000,2);
-coex_all = false(5000,2);
+S_inv_all = zeros(100,2);
+coex_all = false(100,2);
 
 fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_0.3_phi_0.1_R0_40_R_200_dx_0_sigmaR2_0_muttype_-1.mat";
 load(fname)
-for k = 1:length(harvests)
+for k = 1:size(organisms,1)
     h = harvests{k,1};
     d = deltas{k,2};
     if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -701,7 +706,7 @@ end
 
 fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_0.8_phi_0.1_R0_40_R_200_dx_0_sigmaR2_0_muttype_-1.mat";
 load(fname)
-for k = 1:length(harvests)
+for k = 1:size(organisms,1)
     h = harvests{k,1};
     d = deltas{k,2};
     if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -802,7 +807,10 @@ R0=40;
 for i = 1:14
     fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_" + string(astarvals(i)) + "_phi_0.1_R0_40_R_200_dx_0_sigmaR2_0_muttype_-1.mat";
     load(fname)
-    for k = 1:length(harvests)
+    if size(deltas,1) ~= 10000
+        size(deltas)
+    end
+    for k = 1:10000
         h = harvests{k,1};
         d = deltas{k,2};
         if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -820,7 +828,10 @@ R0=16;
 for i = 1:14
     fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_" + string(astarvals(i)) + "_phi_0.1_R0_16_R_200_dx_0_sigmaR2_0_muttype_-1.mat";
     load(fname)
-    for k = 1:length(harvests)
+    if size(deltas,1) ~= 10000
+        size(deltas)
+    end
+    for k = 1:10000
         h = harvests{k,1};
         d = deltas{k,2};
         if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -867,7 +878,7 @@ tot2 = 1;
 R0=40;
 fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_" + string(astarvals(9)) + "_phi_0.1_R0_40_R_200_dx_0_sigmaR2_0_muttype_-1.mat";
 load(fname)
-for k = 1:length(harvests)
+for k = 1:size(organisms,1)
     h = harvests{k,1};
     d = deltas{k,2};
     if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -886,6 +897,8 @@ for k = 1:length(harvests)
         tot2 = tot2 + length(shared_resources);
     end
 end
+typical_shared_resources = typical_shared_resources(1:tot2-1);
+num_shared_resources = num_shared_resources(1:tot_all);
 
 
 tot_all = 0;
@@ -893,7 +906,7 @@ tot2=1;
 R0 = 16;
 fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_" + string(astarvals(9)) + "_phi_0.1_R0_16_R_200_dx_0_sigmaR2_0_muttype_-1.mat";
 load(fname)
-for k = 1:length(harvests)
+for k = 1:size(organisms,1)
     h = harvests{k,1};
     d = deltas{k,2};
     if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -906,10 +919,14 @@ for k = 1:length(harvests)
         num_shared_resources2(tot_all) = sum(organisms{k,2}.enzymesInSpecies(end,:) & organisms{k,2}.enzymesInSpecies(ind,:));
         other_enz = organisms{k,2}.enzymesInSpecies(1:end-1,:);
         other_enz(parent_inds(k),:) = [];
-        shared_resources = sum(organisms{k,2}.enzymesInSpecies(end,:).*other_enz,2);            typical_shared_resources2(tot2:tot2+length(shared_resources)-1) = shared_resources;
+        shared_resources = sum(organisms{k,2}.enzymesInSpecies(end,:).*other_enz,2);            
+        typical_shared_resources2(tot2:tot2+length(shared_resources)-1) = shared_resources;
         tot2 = tot2 + length(shared_resources);
     end
 end
+typical_shared_resources2 = typical_shared_resources2(1:tot2-1);
+num_shared_resources2 = num_shared_resources2(1:tot_all);
+
 
 edges = 0:(max(num_shared_resources)+1);
 h1 = histogram(num_shared_resources,'BinEdges',edges);
@@ -945,7 +962,10 @@ tot_all = 1;
 R0=40;
 fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_" + string(astarvals(9)) + "_phi_0.1_R0_40_R_200_dx_0_sigmaR2_0_muttype_-1.mat";
 load(fname)
-for k = 1:length(harvests)
+if size(deltas,1) ~= 10000
+    size(deltas)
+end
+for k = 1:size(organisms,1)
     h = harvests{k,1};
     d = deltas{k,2};
     if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -996,7 +1016,10 @@ for i = 1:length(R0_vals)
     fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_0.8_phi_0.1_R0_" + string(R0_vals(i)) + "_R_200_dx_0_sigmaR2_0_muttype_-1.mat";
     clear organisms
     load(fname)
-    for k = 1:length(harvests)
+    if size(deltas,1) ~= 10000
+        size(deltas)
+    end
+    for k = 1:size(organisms,1)
         h = harvests{k,1};
         d = deltas{k,2};
         if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -1026,7 +1049,10 @@ for i = 1:length(R0_vals)
     R0 = R0_vals(i);
     fname = "Raw_Results/First_Step_Sims/knockin/sstep_astar_0.8_phi_0.1_R0_" + string(R0_vals(i)) + "_R_200_dx_0_sigmaR2_0_muttype_0.mat";
     load(fname)
-    for k = 1:length(harvests)
+    if size(deltas,1) ~= 10000
+        size(deltas)
+    end
+    for k = 1:size(organisms,1)
         h = harvests{k,1};
         d = deltas{k,2};
         if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -1182,20 +1208,6 @@ for i = 0:8
     end
 end
 
-for i = 1:9
-    plot(N_strains(i,1:find(~N_strains(i,:),1)-1) - N_species(i,1:find(~N_species(i,:),1)-1),'Color',[0.5 0.5 1],'LineWidth',0.75)
-    hold on
-    p2=plot(mean(N_strains(:,1:min_len)) - mean(N_species(:,1:min_len)),'Color',[0 0 0.75],'LineWidth',2);
-    plot(N_strains(i,1:find(~N_strains(i,:),1)-1),'Color',[1 0.5 0.5],'LineWidth',0.75)
-    p1=plot(mean(N_strains(:,1:min_len)),'Color',[0.75 0 0],'LineWidth',2);
-end
-
-xlabel('No. mutations','FontSize',25)
-ylabel('No. ecotypes','FontSize',25)
-legend([p1 p2],{'Total','Closely related'})
-set(gca,'FontSize',20)
-xlim([0 max_len])
-
 save('Processed_Results/Fig5B_data.mat','N_strains','N_species','min_len','max_len')
 
 %% FIGURE 5C, surival time of coexisting relatives
@@ -1205,6 +1217,9 @@ coex_flag = -ones(9,1000);
 coex_depths = -ones(9,1000);
 h_stds = -ones(9,1000);
 h_half_stds = -ones(9,1000);
+
+running_coex = zeros(1,1000);
+running_tot = zeros(1,1000);
 
 for k = 0:8
     species0 = 1:4500;
@@ -1383,7 +1398,7 @@ tot = 0;
 R0=20;
 fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_0.9_phi_0.1_R0_20_R_100_dx_0_sigmaR2_0_muttype_-1.mat";
 load(fname)
-for k = 1:length(harvests)
+for k = 1:10000
     h = harvests{k,1};
     d = deltas{k,2};
     if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -1397,7 +1412,169 @@ cprob1 = coex/tot;
 
 save('Processed_Results/Fig5E_data.mat','coex_flag','cprob1')
 
-%% FIGURE S1: DFE for single organism
+%% FIGURE S1: Explicit community dynamics
+clear all
+addpath('Simulations')
+
+seed = round(rand*100000000);
+
+epsilon = 0.5;
+alpha = 10;
+sigma_R_sq = 0.1;
+R = 100;
+R0 = 20;
+
+avg_supply = 5;
+
+h_max = 4;
+c_half = 1;
+
+p.N = R;
+p.R2 = sigma_R_sq*R;
+p.sparsity = R0/R;
+rFluctuationMode = [ones(p.N/2,1); -ones(p.N/2,1)];
+p.capacity = 100*ones(p.N,1).*(1+sqrt(p.R2/p.N).*normrnd(0,1,p.N,1));
+while sum(p.capacity < 0) > 0
+    fprintf('Negative resource supply generated, retrying.\n');
+    p.capacity = 100*ones(p.N,1).*(1+sqrt(p.R2/p.N).*normrnd(0,1,p.N,1));
+end
+p.alpha = alpha;
+p.seed = round(seed);
+p.epsilon = epsilon/R0;
+
+prop = generateOrganisms(p);
+while min(sum(prop.enzymesInSpecies)) == 0
+    fprintf('Unused resource, retrying.\n');
+    p.seed = round(rand*100000000);
+    prop = generateOrganisms(p);
+end
+
+prop.budget = prop.budget - max(prop.budget);
+prop.capacity = p.capacity;
+
+
+r = ( prop.enzymesInSpecies./sum(prop.enzymesInSpecies,2) ) .* exp(prop.budget);
+[t,n,c] = log_community_dynamics(alpha*R,r,prop.capacity/mean(prop.capacity),avg_supply,h_max,c_half);
+
+n(n<1e-10) = 0;
+
+[h_eq, d_eq] = findEquilibrium(prop);
+
+threshold = 1e-3*std(1-h_eq(1-h_eq > 0))/R0;
+survivors = d_eq > -threshold;
+
+alphas = prop.enzymesInSpecies(survivors,:);
+fitnesses = prop.budget(survivors);
+alphas = alphas./sum(alphas,2);
+inv_harvest = prop.capacity'./(h_eq*mean(prop.capacity));
+n_lsq = lsqnonneg(alphas', inv_harvest');
+n_lsq = n_lsq.*exp(-fitnesses);
+n_lsq = n_lsq/sum(n_lsq);
+
+abundances = zeros(length(d_eq),1);
+abundances(survivors) = n_lsq;
+
+h1 = harvest(c(end,:),h_max,c_half);
+h1 = h1/sum(h1);
+h2 = h_eq/sum(h_eq);
+
+[h_dynamics, inds] = sort(h1/mean(h1));
+h2 = h2(inds);
+[n_dynamics, inds] = sort(n(end,:)/sum(n(end,:)));
+live_flag = n_dynamics > 0 | abundances(inds)' > 0;
+
+abundances = abundances(inds(live_flag));
+n_dynamics = n_dynamics(live_flag);
+
+h2_1 = h2;
+h_dynamics_1 = h_dynamics;
+abundances_1 = abundances;
+n_dynamics_1 = n_dynamics;
+t1 = t;
+n1 = n;
+c1 = c;
+
+seed = round(rand*100000000);
+
+epsilon = 0.5;
+alpha = 10;
+sigma_R_sq = 0.1;
+R = 100;
+R0 = 20;
+
+avg_supply = 50;
+
+h_max = 4;
+c_half = 1;
+
+p.N = R;
+p.R2 = sigma_R_sq*R;
+p.sparsity = R0/R;
+rFluctuationMode = [ones(p.N/2,1); -ones(p.N/2,1)];
+p.capacity = 100*ones(p.N,1).*(1+sqrt(p.R2/p.N).*normrnd(0,1,p.N,1));
+while sum(p.capacity < 0) > 0
+    fprintf('Negative resource supply generated, retrying.\n');
+    p.capacity = 100*ones(p.N,1).*(1+sqrt(p.R2/p.N).*normrnd(0,1,p.N,1));
+end
+p.alpha = alpha;
+p.seed = round(seed);
+p.epsilon = epsilon/R0;
+
+prop = generateOrganisms(p);
+while min(sum(prop.enzymesInSpecies)) == 0
+    fprintf('Unused resource, retrying.\n');
+    p.seed = round(rand*100000000);
+    prop = generateOrganisms(p);
+end
+
+prop.budget = prop.budget - max(prop.budget);
+prop.capacity = p.capacity;
+
+
+r = ( prop.enzymesInSpecies./sum(prop.enzymesInSpecies,2) ) .* exp(prop.budget);
+[t,n,c] = log_community_dynamics(alpha*R,r,prop.capacity/mean(prop.capacity),avg_supply,h_max,c_half);
+
+n(n<1e-10) = 0;
+
+[h_eq, d_eq] = findEquilibrium(prop);
+
+threshold = 1e-3*std(1-h_eq(1-h_eq > 0))/R0;
+survivors = d_eq > -threshold;
+
+alphas = prop.enzymesInSpecies(survivors,:);
+fitnesses = prop.budget(survivors);
+alphas = alphas./sum(alphas,2);
+inv_harvest = prop.capacity'./(h_eq*mean(prop.capacity));
+n_lsq = lsqnonneg(alphas', inv_harvest');
+n_lsq = n_lsq.*exp(-fitnesses);
+n_lsq = n_lsq/sum(n_lsq);
+
+abundances = zeros(length(d_eq),1);
+abundances(survivors) = n_lsq;
+
+h1 = harvest(c(end,:),h_max,c_half);
+h1 = h1/sum(h1);
+h2 = h_eq/sum(h_eq);
+
+[h_dynamics, inds] = sort(h1/mean(h1));
+h2 = h2(inds);
+
+[n_dynamics, inds] = sort(n(end,:)/sum(n(end,:)));
+live_flag = n_dynamics > 0 | abundances(inds)' > 0;
+
+abundances = abundances(inds(live_flag));
+n_dynamics = n_dynamics(live_flag);
+
+
+h2_2 = h2;
+h_dynamics_2 = h_dynamics;
+abundances_2 = abundances;
+n_dynamics_2 = n_dynamics;
+
+save('Processed_Results/FigS1_data.mat','t1','n1','c1','abundances_1','n_dynamics_1','c_half','h_max','h2_1','h_dynamics_1','abundances_2','n_dynamics_2','h2_2','h_dynamics_2')
+
+
+%% FIGURE S2: DFE for single organism
 clear all
 R0 = 40;
 R = 200;
@@ -1451,144 +1628,10 @@ h5 = histogram(fitnesses_ko3,'Normalization','pdf','BinEdges',edges2);
 
 figure()
 h6 = histogram(fitnesses_ki3,'Normalization','pdf','BinEdges',edges2);
-save('Processed_Results/FigS1_data.mat','edges2','h5','h6','x_vals','S_inv_vals3')
+save('Processed_Results/FigS2_data.mat','edges2','h5','h6','x_vals','S_inv_vals3')
 close all
 
-%% FIGURE S2A: DFE for Tikhonov & Monasson consumer resource model
-clear all
-R0 = 40;
-R = 200;
-phi = 0.1;
-lmbda = sqrt(2)*erfinv(1-2*phi);
-alpha_star = 0.8;
-
-alpha = alpha_star/phi;
-V_tot = (1-R0/R)*(2*(1 - alpha*I_func(lmbda))./(-alpha .*dI_func(lmbda)) - lmbda);
-epsilon = V_tot*sqrt(1 - alpha.*I_func(lmbda));
-
-m = (R/R0)*V_tot*lmbda;
-q = (R/R0)*(V_tot^2 - epsilon^2)/(1-R0/R);
-
-x_vals = linspace(-1,1,1000);
-S_inv_vals1 = normpdf(x_vals, m/R, sqrt(q/R));
-S_inv_vals2 = normpdf(x_vals, -m/R, sqrt(q/R));
-
-fitnesses_ko = zeros(200*200*1000,1);
-ind_ko = 1;
-
-fname = "Raw_Results/First_Step_Sims/tikhonov_model/sstep_astar_0.8_phi_0.1_R0_40_R_200_alttype_0.mat";
-load(fname)
-
-for i = 1:length(harvests)
-    h = harvests{i};
-    enzymes = organisms{i}.enzymesInSpecies;
-    survivors = deltas{i} > -1e-3*std(h);
-    enzymes = enzymes(survivors,:);
-    for j = 1:size(enzymes,1)
-        inv_fitness = 1 - h(~~enzymes(j,:));
-        fitnesses_ko(ind_ko:ind_ko+length(inv_fitness)-1) = inv_fitness;
-        ind_ko = ind_ko + length(inv_fitness);
-    end
-    fitnesses_ko((i-1)*200+1:i*200) = 1-harvests{i}';
-end
-fitnesses_ko = fitnesses_ko(1:ind_ko-1);
-
-edges = (-0.2:0.002:0.2);
-bins_ko = zeros(length(edges)-1,1);
-bins_ki = zeros(length(edges)-1,1);
-
-figure(5)
-h1 = histogram(fitnesses_ko,'Normalization','pdf','BinEdges',edges);
-
-figure(6)
-h2 = histogram(-fitnesses_ko,'Normalization','pdf','BinEdges',edges);
-
-save('Processed_Results/FigS2A_data.mat','edges','h1','h2','x_vals','R0','S_inv_vals1')
-close all
-
-%% FIGURE S2B: P(coex) for knockins and knockouts in Tikhonov model
-clear all
-
-coex1 = zeros(13,1);
-tot1 = zeros(13,1);
-
-coex2 = zeros(13,1);
-tot2 = zeros(13,1);
-
-
-astarvals = 0.2:0.1:0.9;
-astarvals = [astarvals 0.92 0.94 0.96 0.98 0.99];
-
-astar_actual1 = zeros(13,1);
-astar_actual2 = zeros(13,1);
-
-R0=40;
-for i = 1:13
-    fname = "Raw_Results/First_Step_Sims/tikhonov_model/sstep_astar_" + string(astarvals(i)) + "_phi_0.1_R0_40_R_200_alttype_0.mat";
-    load(fname)
-    for k = 1:size(deltas,1)
-        h = harvests{k,1};
-        d = deltas{k,2};
-        if d(end) < -1e-3*std(h(1-h>0))
-            continue
-        end
-        astar_actual1(i) = astar_actual1(i) + (length(d)-1)/200;
-        coex1(i) = coex1(i) + (d(parent_inds(k)) > -1e-3*std(h(1-h>0)));
-        tot1(i) = tot1(i) + 1;
-    end
-end
-
-for i = 1:13
-    fname = "Raw_Results/First_Step_Sims/tikhonov_model/sstep_astar_" + string(astarvals(i)) + "_phi_0.1_R0_40_R_200_alttype_1.mat";
-    load(fname)
-    for k = 1:size(deltas,1)
-        h = harvests{k,1};
-        d = deltas{k,2};
-        if d(end) < -1e-3*std(h(1-h>0))
-            continue
-        end
-        astar_actual2(i) = astar_actual2(i) + (length(d)-1)/200;
-        coex2(i) = coex2(i) + (d(parent_inds(k)) > -1e-3*std(h(1-h>0)));
-        tot2(i) = tot2(i) + 1;
-    end
-end
-
-R0 = 40;
-R = 200;
-phi = 0.1;
-lmbda = sqrt(2)*erfinv(1-2*phi);
-alpha_star_vals = 0.01:0.001:0.99;
-alpha_vals = alpha_star_vals./phi;
-V_tot = (1-R0/R)*(2*(1 - alpha_vals.*I_func(lmbda))./(-alpha_vals .*dI_func(lmbda)) - lmbda);
-m = (R/R0)*V_tot*lmbda;
-q = V_tot.^2.*alpha_vals.*I_func(lmbda)*R/(R0*(1-R0/R));
-sigma_inv = sqrt(q/R)/R0;
-dx_vals = m/(R)/R0;
-
-Csq = (V_tot./(R0^2*(1-R0/R)*sigma_inv)).^2;
-
-cprob1 = (-2*(Csq + Csq.^2) + lmbda*sqrt(2*pi)*(power(1 + Csq,2).*power(exp(1),power(lmbda,2)/2.).*erfc(lmbda/sqrt(2)) - ...
-        sqrt(1 + Csq).*power(exp(1),power(lmbda,2)./(2 + 2*Csq)).*erfc(lmbda./(sqrt(2).*sqrt(1 + Csq)))))./ ...
-   (power(1 + Csq,2).*(-2 + power(exp(1),power(lmbda,2)/2.).*lmbda*sqrt(2*pi).*erfc(lmbda/sqrt(2))));
-
-fun = @ (C,dx,sigma) (sigma.*(2.*(-power(exp(1),-power(C - dx,2)./(2..*power(sigma,2))) + power(exp(1),-power(dx,2)./(2.*power(sigma,2)))).*sigma + dx.*sqrt(2.*pi).*erf(dx./(sqrt(2).*sigma)) -... 
-       dx.*sqrt(2.*pi).*erf((-C + dx)./(sqrt(2).*sigma))))./...
-   (2.*(power(sigma,2)./power(exp(1),power(dx,2)./(2.*power(sigma,2))) + dx.*sqrt(pi./2).*sigma.*(1 + erf(dx./(sqrt(2).*sigma)))));
-
-fun2 = @ (gma, R_0, R, Vtot, lma, n, dx, sigma) (-n - lma).*exp(-n.^2./2)./(exp(-lma.^2./2)-lma.*sqrt(pi./2).*erfc(lma./sqrt(2))) .* fun(gma.^2.*Vtot.*(-n-lma)./(R_0.^2.*(1-R_0./R)), dx, sigma);
-
-pcoex_vals1 = 0*alpha_star_vals;
-pcoex_vals2 = 0*alpha_star_vals;
-pcoex_vals3 = 0*alpha_star_vals;
-for i = 1:length(alpha_star_vals)
-    pcoex_vals1(i) = integral(@(x) fun2(1,R0,R,V_tot(i),lmbda,x,dx_vals(i),sigma_inv(i)),-10,-lmbda);
-    pcoex_vals2(i) = integral(@(x) fun2(1,R0,R,V_tot(i),lmbda,x,-dx_vals(i),sigma_inv(i)),-10,-lmbda);
-    pcoex_vals3(i) = integral(@(x) fun2(1,R0,R,V_tot(i),lmbda,x,0*dx_vals(i),sigma_inv(i)),-10,-lmbda);
-end
-
-save('Processed_Results/FigS2B_data.mat','alpha_star_vals','astar_actual1','astar_actual2','pcoex_vals1','pcoex_vals2','pcoex_vals3','coex1','tot1','coex2','tot2')
-
-%% Figure S2C and S2D: Resource availabilities and P(coex) for Dirichlet uptake rates
+%% Figure S3A and S3B: Resource availabilities and P(coex) for Dirichlet uptake rates
 clear all
 
 coex = zeros(14,1);
@@ -1609,7 +1652,7 @@ R0=40;
 for i = 1:14
     fname = "Raw_Results/First_Step_Sims/dirichlet_uptakes/sstep_astar_" + string(astarvals(i)) + "_phi_0.1_R0_40_R_200_alttype_2_gamma_1.mat";
     load(fname)
-    for k = 1:length(harvests)
+    for k = 1:10000
         h = harvests{k,1};
         d = deltas{k,2};
         if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -1664,7 +1707,7 @@ h2=histogram(harvests2,'BinEdges',edges,'Normalization','pdf');
 
 h1Vals = h1.Values;
 h2Vals = h2.Values;
-save('Processed_Results/FigS2C_data','edges','h1Vals','h2Vals','x_vals','S_inv_vals1','S_inv_vals2')
+save('Processed_Results/FigS3A_data','edges','h1Vals','h2Vals','x_vals','S_inv_vals1','S_inv_vals2')
 close all
 
 R0 = 40;
@@ -1685,9 +1728,231 @@ cprob = (-2*(Csq + Csq.^2) + lmbda*sqrt(2*pi)*(power(1 + Csq,2).*power(exp(1),po
         sqrt(1 + Csq).*power(exp(1),power(lmbda,2)./(2 + 2*Csq)).*erfc(lmbda./(sqrt(2).*sqrt(1 + Csq)))))./ ...
    (power(1 + Csq,2).*(-2 + power(exp(1),power(lmbda,2)/2.).*lmbda*sqrt(2*pi).*erfc(lmbda/sqrt(2))));
 
-save('Processed_Results/FigS2D_data','alpha_star_vals','astar_actual', 'cprob', 'astarvals','coex','tot')
+save('Processed_Results/FigS3B_data','alpha_star_vals','astar_actual', 'cprob', 'astarvals','coex','tot')
 
-%% FIGURE S3: "Simultaneous assembly" simulations without extinction
+%% FIGURE S3C: P(coex) for Gaussian resource uptakes
+clear all
+
+coex1 = zeros(8,1);
+tot1 = zeros(8,1);
+astar_actual1 = zeros(8,1);
+
+coex2 = zeros(8,1);
+tot2 = zeros(8,1);
+astar_actual2 = zeros(8,1);
+
+coex3 = zeros(8,1);
+tot3 = zeros(8,1);
+astar_actual3 = zeros(8,1);
+
+coex4 = zeros(8,1);
+tot4 = zeros(8,1);
+astar_actual4 = zeros(8,1);
+
+var_alphas = zeros(8,4);
+tot_var = zeros(8,4);
+
+all_harvests = zeros(200*1000,8,4);
+h_inds = ones(8,4);
+
+alphavals = [0.3 0.6 1.2 2.4 4.8 9.6 19.2 38.4];
+
+R0=10*200;
+R = 200;
+for i = 1:8
+    fname = "Raw_Results/First_Step_Sims/dirichlet_uptakes/sstep_gauss_uptakes_alpha_" + string(alphavals(i)) + "_eps_1_scale_10_R_200_mutsize_0.1.mat";
+    load(fname)
+    for k = 1:length(harvests)
+        h = harvests{k,1};
+        h = length(h)*h/sum(h);
+        d = deltas{k,2};
+        if d(end) < -1e-3*std(h(1-h>0))/R0
+            continue
+        end
+        astar_actual1(i) = astar_actual1(i) + (length(d)-1)/R;
+        coex1(i) = coex1(i) + (d(parent_inds(k)) > -1e-3*std(h)/R0);
+        tot1(i) = tot1(i) + 1;
+    end
+    all_harvests(h_inds(i,1):h_inds(i,1)+length(h)-1,i,1) = h;
+    h_inds(i,1) = h_inds(i,1) + length(h);
+end
+
+R0=100*200;
+R = 200;
+for i = 1:8
+    fname = "Raw_Results/First_Step_Sims/dirichlet_uptakes/sstep_gauss_uptakes_alpha_" + string(alphavals(i)) + "_eps_1_scale_100_R_200_mutsize_0.1.mat";
+    load(fname)
+    for k = 1:length(harvests)
+        h = harvests{k,1};
+        h = length(h)*h/sum(h);
+        d = deltas{k,2};
+        if d(end) < -1e-3*std(h(1-h>0))/R0
+            continue
+        end
+        astar_actual2(i) = astar_actual2(i) + (length(d)-1)/R;
+        coex2(i) = coex2(i) + (d(parent_inds(k)) > -1e-3*std(h)/R0);
+        tot2(i) = tot2(i) + 1;
+    end
+end
+
+R0=10*200;
+R = 200;
+for i = 1:8
+    fname = "Raw_Results/First_Step_Sims/dirichlet_uptakes/sstep_gauss_uptakes_alpha_" + string(alphavals(i)) + "_eps_1_scale_10_R_200_mutsize_0.05.mat";
+    load(fname)
+    for k = 1:length(harvests)
+        h = harvests{k,1};
+        h = length(h)*h/sum(h);
+        d = deltas{k,2};
+        if d(end) < -1e-3*std(h(1-h>0))/R0
+            continue
+        end
+        astar_actual3(i) = astar_actual3(i) + (length(d)-1)/R;
+        coex3(i) = coex3(i) + (d(parent_inds(k)) > -1e-3*std(h)/R0);
+        tot3(i) = tot3(i) + 1;
+    end
+end
+
+R0=100*200;
+R = 200;
+for i = 1:8
+    fname = "Raw_Results/First_Step_Sims/dirichlet_uptakes/sstep_gauss_uptakes_alpha_" + string(alphavals(i)) + "_eps_1_scale_100_R_200_mutsize_0.05.mat";
+    load(fname)
+    for k = 1:length(harvests)
+        h = harvests{k,1};
+        h = length(h)*h/sum(h);
+        d = deltas{k,2};
+        if d(end) < -1e-3*std(h(1-h>0))/R0
+            continue
+        end
+        astar_actual4(i) = astar_actual4(i) + (length(d)-1)/R;
+        coex4(i) = coex4(i) + (d(parent_inds(k)) > -1e-3*std(h)/R0);
+        tot4(i) = tot4(i) + 1;
+    end
+end
+
+N_val = 200;
+B = 100;
+mut_size = 0.1;
+
+R0 = N_val/(1+1/B);
+
+phi = (astar_actual2./tot2)./alphavals';
+lmbda = sqrt(2)*erfinv(1-2*phi);
+alpha_star_vals = 0.2:0.01:0.8;
+
+lmbda = interp1(astar_actual2./tot2,lmbda,alpha_star_vals,'linear','extrap');
+phi = erfc(lmbda/sqrt(2))/2;
+alpha_vals = alpha_star_vals./phi;
+V_tot = (1-R0/N_val)*(2*(1 - alpha_vals.*I_func(lmbda))./(-alpha_vals .*dI_func(lmbda)) - lmbda);
+cost = 0;
+
+q = V_tot.^2.*alpha_vals.*I_func(lmbda)*N_val/(R0*(1-R0/N_val));
+
+sinv_factor = sqrt(B*q/mut_size)/R0^2;
+Csq = (V_tot./(R0^2*(1-R0/N_val)*sinv_factor)).^2;
+
+
+
+L = lmbda;
+cprob = (-2.*(Csq + Csq.^2) + lmbda.*sqrt(2.*pi).*(power(1 + Csq,2).*power(exp(1),power(lmbda,2)./2.).*erfc(lmbda./sqrt(2)) - ...
+        sqrt(1 + Csq).*power(exp(1),power(lmbda,2)./(2 + 2.*Csq)).*erfc(lmbda./(sqrt(2).*sqrt(1 + Csq)))))./ ...
+   (power(1 + Csq,2).*(-2 + power(exp(1),power(lmbda,2)./2.).*lmbda.*sqrt(2.*pi).*erfc(lmbda./sqrt(2))));
+
+
+mut_size = 0.05;
+
+R0 = N_val/(1+1/B);
+
+phi = (astar_actual4./tot4)./alphavals';
+lmbda = sqrt(2)*erfinv(1-2*phi);
+alpha_star_vals = 0.2:0.01:0.8;
+
+lmbda = interp1(astar_actual4./tot4,lmbda,alpha_star_vals,'linear','extrap');
+phi = erfc(lmbda/sqrt(2))/2;
+alpha_vals = alpha_star_vals./phi;
+V_tot = (1-R0/N_val)*(2*(1 - alpha_vals.*I_func(lmbda))./(-alpha_vals .*dI_func(lmbda)) - lmbda);
+cost = 0;
+
+q = V_tot.^2.*alpha_vals.*I_func(lmbda)*N_val/(R0*(1-R0/N_val));
+
+sinv_factor = sqrt(B*q/mut_size)/R0^2;
+Csq = (V_tot./(R0^2*(1-R0/N_val)*sinv_factor)).^2;
+
+
+
+L = lmbda;
+cprob2 = (-2.*(Csq + Csq.^2) + lmbda.*sqrt(2.*pi).*(power(1 + Csq,2).*power(exp(1),power(lmbda,2)./2.).*erfc(lmbda./sqrt(2)) - ...
+        sqrt(1 + Csq).*power(exp(1),power(lmbda,2)./(2 + 2.*Csq)).*erfc(lmbda./(sqrt(2).*sqrt(1 + Csq)))))./ ...
+   (power(1 + Csq,2).*(-2 + power(exp(1),power(lmbda,2)./2.).*lmbda.*sqrt(2.*pi).*erfc(lmbda./sqrt(2))));
+
+save('Processed_Results/FigS3C_data','alpha_star_vals','cprob','cprob2','astar_actual1','astar_actual2','astar_actual3','astar_actual4','coex1','coex2','coex3','coex4','tot1','tot2','tot3','tot4')
+
+%% FIGURE S3D: Specialist community assembly
+clear all
+addpath('Simulations')
+seed = round(rand*10000000);
+R = 50;
+epsilon = 5;
+gamma = 0.1;
+
+R2_val = 1*R;
+
+p.N = R;
+p.R2 = R2_val;
+p.sparsity = 1/R;
+p.capacity = 100*exprnd(1,p.N,1);
+p.alpha = 1;
+p.seed = seed;
+p.epsilon = epsilon;
+prop = generateOrganismsSpecialists(p);
+prop.capacity = p.capacity/mean(p.capacity);
+true_deltas = {};
+
+[h, delta] = findEquilibrium(prop);
+budgets = prop.budget;
+
+invasion_flag = zeros(R);
+coex_flag = zeros(R);
+all_deltas = zeros(R*R,1);
+ind = 1;
+
+for i = 1:R
+    for j = 1:R
+        if budgets(i) > budgets(j) && i ~= j
+            invasion_flag(i,j) = 1;
+            prop2 = prop;
+            prop2.enzymesInSpecies = [eye(R); zeros(1,R)];
+            prop2.enzymesInSpecies(end,i) = 1 - gamma;
+            prop2.enzymesInSpecies(end,j) = gamma;
+            prop2.budget = [budgets; budgets(i)];
+
+            [h2, delta2] = findEquilibrium(prop2);
+            if delta2(i) > -1e-12
+                coex_flag(i,j) = 1;
+            end
+            if delta2(end) < -1e-10
+                delta2(end)
+            end
+            all_deltas(ind) = delta2(i);
+            ind = ind+1;
+        end
+    end
+end
+all_deltas = all_deltas(1:ind-1);
+histogram(log10(-all_deltas))
+
+invasion_flag = invasion_flag(:);
+coex_flag = coex_flag(:);
+
+Ksource_vals = repmat(prop.capacity,1,R);
+Krecip_vals = repmat(prop.capacity',R,1);
+Ksource_vals = Ksource_vals(:);
+Krecip_vals = Krecip_vals(:);
+
+save('Processed_Results/FigS3D_data','Ksource_vals','Krecip_vals','coex_flag','invasion_flag','gamma','prop','R')
+
+%% FIGURE S4: "Simultaneous assembly" simulations without extinction
 clear all
 
 coex1 = zeros(14,1);
@@ -1705,7 +1970,7 @@ R0=40;
 for i = 1:14
     fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_" + string(astarvals(i)) + "_phi_0.1_R0_40_R_200_dx_0_sigmaR2_0_muttype_-1.mat";
     load(fname)
-    for k = 1:length(harvests)
+    for k = 1:10000
         h = harvests{k,1};
         d = deltas{k,2};
         if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -1721,7 +1986,7 @@ R0=40;
 for i = 1:14
     fname = "Raw_Results/First_Step_Sims/simul_assembly/sstep_astar_" + string(astarvals(i)) + "_phi_0.1_R0_40_R_200_dx_0_sigmaR2_0_muttype_1.mat";
     load(fname)
-    for k = 1:length(harvests)
+    for k = 1:10000
         h = harvests{k,1};
         d = deltas{k,2};
         if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -1753,9 +2018,9 @@ cprob = (-2*(Csq + Csq.^2) + lmbda*sqrt(2*pi)*(power(1 + Csq,2).*power(exp(1),po
    (power(1 + Csq,2).*(-2 + power(exp(1),power(lmbda,2)/2.).*lmbda*sqrt(2*pi).*erfc(lmbda/sqrt(2))));
 
 
-save('Processed_Results/FigS3_data','alpha_star_vals','astar_actual1','astar_actual2', 'cprob', 'astarvals','coex1','coex2','tot1','tot2')
+save('Processed_Results/FigS4_data','alpha_star_vals','astar_actual1','astar_actual2', 'cprob', 'astarvals','coex1','coex2','tot1','tot2')
 
-%% FIGURE S4, left: P(coex) vs niche saturation for knockout and global-effect mutations
+%% FIGURE S5, left: P(coex) vs niche saturation for knockout and global-effect mutations
 clear all
 
 coex1 = zeros(14,1);
@@ -1773,7 +2038,7 @@ R0=40;
 for i = 1:14
     fname = "Raw_Results/First_Step_Sims/dirichlet_uptakes/sstep_astar_" + string(astarvals(i)) + "_phi_0.1_R0_40_R_200_alttype_2_gamma_1.mat";
     load(fname)
-    for k = 1:length(harvests)
+    for k = 1:10000
         h = harvests{k,1};
         d = deltas{k,2};
         if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -1790,7 +2055,7 @@ R0=40;
  for i = 1:14
     fname = "Raw_Results/First_Step_Sims/dirichlet_uptakes/sstep_astar_" + string(astarvals(i)) + "_phi_0.1_R0_40_R_200_alttype_3_gamma_1.mat";
     load(fname)
-    for k = 1:length(harvests)
+    for k = 1:10000
         h = harvests{k,1};
         d = deltas{k,2};
         if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -1822,9 +2087,9 @@ cprob = (-2*(Csq + Csq.^2) + lmbda*sqrt(2*pi)*(power(1 + Csq,2).*power(exp(1),po
    (power(1 + Csq,2).*(-2 + power(exp(1),power(lmbda,2)/2.).*lmbda*sqrt(2*pi).*erfc(lmbda/sqrt(2))));
 
 
-save('Processed_Results/FigS4_left_data','alpha_star_vals','astar_actual1','astar_actual2', 'cprob', 'astarvals','coex1','coex2','tot1','tot2')
+save('Processed_Results/FigS5_left_data','alpha_star_vals','astar_actual1','astar_actual2', 'cprob', 'astarvals','coex1','coex2','tot1','tot2')
 
-%% FIGURE S4, right: P(coex) vs gamma for knockout and global-effect mutations
+%% FIGURE S5, right: P(coex) vs gamma for knockout and global-effect mutations
 clear all
 
 coex1 = zeros(10,1);
@@ -1838,7 +2103,7 @@ R0=40;
 for i = 1:10
     fname = "Raw_Results/First_Step_Sims/dirichlet_uptakes/sstep_astar_0.8_phi_0.1_R0_40_R_200_alttype_2_gamma_" + string(gammavals(i)) +".mat";
     load(fname)
-    for k = 1:length(harvests)
+    for k = 1:10000
         h = harvests{k,1};
         d = deltas{k,2};
         if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -1853,7 +2118,7 @@ R0=40;
 for i = 1:10
     fname = "Raw_Results/First_Step_Sims/dirichlet_uptakes/sstep_astar_0.8_phi_0.1_R0_40_R_200_alttype_3_gamma_" + string(gammavals(i)) +".mat";
     load(fname)
-    for k = 1:length(harvests)
+    for k = 1:10000
         h = harvests{k,1};
         d = deltas{k,2};
         if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -1883,9 +2148,9 @@ cprob = (-2*(Csq + Csq.^2) + lmbda*sqrt(2*pi)*(power(1 + Csq,2).*power(exp(1),po
         sqrt(1 + Csq).*power(exp(1),power(lmbda,2)./(2 + 2*Csq)).*erfc(lmbda./(sqrt(2).*sqrt(1 + Csq)))))./ ...
    (power(1 + Csq,2).*(-2 + power(exp(1),power(lmbda,2)/2.).*lmbda*sqrt(2*pi).*erfc(lmbda/sqrt(2))));
 
-save('Processed_Results/FigS4_right_data','gammavals', 'cprob','coex1','coex2','tot1','tot2')
+save('Processed_Results/FigS5_right_data','gammavals', 'cprob','coex1','coex2','tot1','tot2')
 
-%% FIGURE S5: Invasion fitness vs. parent rel. abun. scatterplot
+%% FIGURE S6: Invasion fitness vs. parent rel. abun. scatterplot
 clear all
 rel_abuns = [];
 s_invs = [];
@@ -1894,7 +2159,7 @@ R0 = 40;
 
 fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_0.8_phi_0.1_R0_40_R_200_dx_0_sigmaR2_0_muttype_-1.mat";
 load(fname)
-for k = 1:length(harvests)
+for k = 1:10000
     h1 = harvests{k,1};
     threshold = 1e-3*std(1-h1(1-h1 > 0))/R0;
     survivors = deltas{k,1} > - threshold;
@@ -1935,25 +2200,22 @@ for k = 1:length(harvests)
 end
 
 coex_flags = ~~coex_flags;
-save('Processed_Results/FigS5_data','s_invs','rel_abuns','coex_flags');
+save('Processed_Results/FigS6_data','s_invs','rel_abuns','coex_flags');
 
-%% FIGURE S6A, S6B: P(Coex) for non-uniform resource supply and use
+%% FIGURE S7A P(Coex) for small deviations from uniform resource supply
 clear all
 
 coex1 = zeros(9,1);
 tot1 = zeros(9,1);
-coex2 = zeros(28,1);
-tot2 = zeros(28,1);
 
 sigmaR2_vals = 0.01:0.01:0.09;
-Rp_vals = 10:5:145;
 
 astar_actual1 = zeros(9,1);
-astar_actual2 = zeros(28,1);
 
 R0=40;
 for i = 1:9
     fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_0.8_phi_0.1_R0_40_R_200_dx_0_sigmaR2_" + string(sigmaR2_vals(i)) + "_muttype_-1.mat";
+
     load(fname)
 
     for k = 1:length(harvests)
@@ -1968,8 +2230,616 @@ for i = 1:9
     end
 end
 
-for i = 1:28
-    fname = "Raw_Results/First_Step_Sims/Rp_neq_R0/sstep_astar_0.8_phi_0.1_R0_40_R_200_Rp_" + string(Rp_vals(i))+ ".mat";
+R0 = 40;
+N_val = 200;
+
+phi = 0.1;
+lmbda = sqrt(2)*erfinv(1-2*phi);
+alpha_star_vals = 0.8;
+alpha_vals = alpha_star_vals./phi;
+V_tot = (1-R0/N_val)*(2*(1 - alpha_vals.*I_func(lmbda))./(-alpha_vals .*dI_func(lmbda)) - lmbda);
+sigmaR2_vals = 0:0.001:0.095;
+
+q = V_tot.^2.*alpha_vals.*I_func(lmbda)*N_val/(R0*(1-R0/N_val)) + N_val*sigmaR2_vals.*(1-alpha_star_vals).^2;
+sigma_inv = sqrt(q/N_val)/R0;
+Csq = (V_tot./(R0^2*(1-R0/N_val)*sigma_inv)).^2;
+
+cprob = (-2*(Csq + Csq.^2) + lmbda*sqrt(2*pi)*(power(1 + Csq,2).*power(exp(1),power(lmbda,2)/2.).*erfc(lmbda/sqrt(2)) - ...
+        sqrt(1 + Csq).*power(exp(1),power(lmbda,2)./(2 + 2*Csq)).*erfc(lmbda./(sqrt(2).*sqrt(1 + Csq)))))./ ...
+   (power(1 + Csq,2).*(-2 + power(exp(1),power(lmbda,2)/2.).*lmbda*sqrt(2*pi).*erfc(lmbda/sqrt(2))));
+
+save('Processed_Results/FigS7A_data','coex1','tot1','sigmaR2_vals','cprob');
+
+%% FIGURE S7B, S7C P(coex) and DFE for exponential resource supply
+clear all
+
+coex1 = zeros(10,1);
+tot1 = zeros(10,1);
+astar_actual1 = zeros(10,1);
+
+coex2 = zeros(10,1);
+tot2 = zeros(10,1);
+astar_actual2 = zeros(10,1);
+
+coex3 = zeros(10,1);
+tot3 = zeros(10,1);
+astar_actual3 = zeros(10,1);
+
+alphavals = [0.3 0.6 1.2 2.4 4.8 9.6 19.2 38.4 76.8 153.6];
+
+fitnesses_ko = zeros(200^2*1000,10,5);
+ind_ko = ones(10,5);
+
+R0=30;
+R = 150;
+for i = 1:10
+    fname = "Raw_Results/First_Step_Sims/exponential_supply/sstep_wide_resource_var_alpha_" + string(alphavals(i)) + "_eps_0.1_R0_30_R_150.mat";
+    load(fname)
+    for k = 1:length(harvests)
+        h = harvests{k,1};
+        h = length(h)*h/sum(h);
+        d = deltas{k,2};
+        if d(end) < -1e-3*std(h(1-h>0))/R0
+            continue
+        end
+        astar_actual1(i) = astar_actual1(i) + (length(d)-1)/R;
+        coex1(i) = coex1(i) + (d(parent_inds(k)) > -1e-3*std(h)/R0);
+        tot1(i) = tot1(i) + 1;
+
+        if k <= length(organisms)
+            enzymes = organisms{k,1}.enzymesInSpecies;
+            survivors = deltas{k,1} > -1e-3*std(h)/R0;
+            enzymes = enzymes(survivors,:);
+            delta_alphas_ko = enzymes.*(1./(sum(enzymes,2)-1)-1./sum(enzymes,2));
+            alphas = enzymes.*(1./sum(enzymes,2));
+            budgets = organisms{k,1}.budget;
+            budgets = budgets(survivors);
+        
+            overall_shift = sum(alphas.*h,2);
+            overall_shift = overall_shift.*exp(budgets);
+            overall_shift = -mean(log(overall_shift));
+            budgets = budgets + overall_shift;
+    
+            for ind = 1:size(enzymes,1)
+                inv_fitness = sum(delta_alphas_ko(ind,:).*h);
+                inv_fitness = inv_fitness - (delta_alphas_ko(ind,find(enzymes(ind,:),1)) + 1/(sum(enzymes(ind,:))))*h(enzymes(ind,:));
+                fitnesses_ko(ind_ko(i,1):ind_ko(i,1)+length(inv_fitness)-1,i,1) = inv_fitness*exp(budgets(ind));
+                ind_ko(i,1) = ind_ko(i,1)+length(inv_fitness);
+            end
+        end
+    end
+end
+
+for i = 1:10
+    fname = "Raw_Results/First_Step_Sims/exponential_supply/sstep_wide_resource_var_alpha_" + string(alphavals(i)) + "_eps_1_R0_30_R_150.mat";
+    load(fname)
+    for k = 1:length(harvests)
+        h = harvests{k,1};
+        h = length(h)*h/sum(h);
+        d = deltas{k,2};
+        if d(end) < -1e-3*std(h(1-h>0))/R0
+            continue
+        end
+        astar_actual2(i) = astar_actual2(i) + (length(d)-1)/R;
+        coex2(i) = coex2(i) + (d(parent_inds(k)) > -1e-3*std(h)/R0);
+        tot2(i) = tot2(i) + 1;
+
+        if k <= length(organisms)
+            enzymes = organisms{k,1}.enzymesInSpecies;
+            survivors = deltas{k,1} > -1e-3*std(h)/R0;
+            enzymes = enzymes(survivors,:);
+            delta_alphas_ko = enzymes.*(1./(sum(enzymes,2)-1)-1./sum(enzymes,2));
+            alphas = enzymes.*(1./sum(enzymes,2));
+            budgets = organisms{k,1}.budget;
+            budgets = budgets(survivors);
+        
+            overall_shift = sum(alphas.*h,2);
+            overall_shift = overall_shift.*exp(budgets);
+            overall_shift = -mean(log(overall_shift));
+            budgets = budgets + overall_shift;
+    
+            for ind = 1:size(enzymes,1)
+                inv_fitness = sum(delta_alphas_ko(ind,:).*h);
+                inv_fitness = inv_fitness - (delta_alphas_ko(ind,find(enzymes(ind,:),1)) + 1/(sum(enzymes(ind,:))))*h(enzymes(ind,:));
+                fitnesses_ko(ind_ko(i,2):ind_ko(i,2)+length(inv_fitness)-1,i,2) = inv_fitness*exp(budgets(ind));
+                ind_ko(i,2) = ind_ko(i,2)+length(inv_fitness);
+            end
+        end
+    end
+end
+
+for i = 1:10
+    fname = "Raw_Results/First_Step_Sims/exponential_supply/sstep_wide_resource_var_alpha_" + string(alphavals(i)) + "_eps_5_R0_30_R_150.mat";
+    load(fname)
+    for k = 1:length(harvests)
+        h = harvests{k,1};
+        h = length(h)*h/sum(h);
+        d = deltas{k,2};
+        if d(end) < -1e-3*std(h(1-h>0))/R0
+            continue
+        end
+        astar_actual3(i) = astar_actual3(i) + (length(d)-1)/R;
+        coex3(i) = coex3(i) + (d(parent_inds(k)) > -1e-3*std(h)/R0);
+        tot3(i) = tot3(i) + 1;
+
+        if k <= length(organisms)
+            enzymes = organisms{k,1}.enzymesInSpecies;
+            survivors = deltas{k,1} > -1e-3*std(h)/R0;
+            enzymes = enzymes(survivors,:);
+            delta_alphas_ko = enzymes.*(1./(sum(enzymes,2)-1)-1./sum(enzymes,2));
+            alphas = enzymes.*(1./sum(enzymes,2));
+            budgets = organisms{k,1}.budget;
+            budgets = budgets(survivors);
+        
+            overall_shift = sum(alphas.*h,2);
+            overall_shift = overall_shift.*exp(budgets);
+            overall_shift = -mean(log(overall_shift));
+            budgets = budgets + overall_shift;
+    
+            for ind = 1:size(enzymes,1) 
+                inv_fitness = sum(delta_alphas_ko(ind,:).*h);
+                inv_fitness = inv_fitness - (delta_alphas_ko(ind,find(enzymes(ind,:),1)) + 1/(sum(enzymes(ind,:))))*h(enzymes(ind,:));
+                fitnesses_ko(ind_ko(i,3):ind_ko(i,3)+length(inv_fitness)-1,i,3) = inv_fitness*exp(budgets(ind));
+                ind_ko(i,3) = ind_ko(i,3)+length(inv_fitness);
+            end
+        end
+    end
+end
+
+fitnesses_ko = fitnesses_ko(1:max(max(ind_ko))-1,:,:);
+
+R0 = 30;
+N_val = 150;
+
+phi = (astar_actual2./tot2)./alphavals';
+lmbda = sqrt(2)*erfinv(1-2*phi);
+alpha_star_vals = 0.01:0.01:0.8;
+lmbda = interp1(astar_actual2./tot2,lmbda,alpha_star_vals,'linear','extrap');
+phi = erfc(lmbda/sqrt(2))/2;
+alpha_vals = alpha_star_vals./phi;
+V_tot = (1-R0/N_val)*(2*(1 - alpha_vals.*I_func(lmbda))./(-alpha_vals .*dI_func(lmbda)) - lmbda);
+cost = 0;
+sigmaR2_vals = 1;
+
+q = V_tot.^2.*alpha_vals.*I_func(lmbda)*N_val/(R0*(1-R0/N_val)) + N_val*sigmaR2_vals.*(1-alpha_star_vals).^2;
+sigma_inv = sqrt(q/N_val)/R0;
+Csq = (V_tot./(R0^2*(1-R0/N_val)*sigma_inv)).^2;
+
+cprob = (-2.*(Csq + Csq.^2) + lmbda.*sqrt(2.*pi).*(power(1 + Csq,2).*power(exp(1),power(lmbda,2)./2.).*erfc(lmbda./sqrt(2)) - ...
+        sqrt(1 + Csq).*power(exp(1),power(lmbda,2)./(2 + 2.*Csq)).*erfc(lmbda./(sqrt(2).*sqrt(1 + Csq)))))./ ...
+   (power(1 + Csq,2).*(-2 + power(exp(1),power(lmbda,2)./2.).*lmbda.*sqrt(2.*pi).*erfc(lmbda./sqrt(2))));
+
+save('Processed_Results/FigS7B_data.mat','astar_actual1','astar_actual2','astar_actual3','tot1','tot2','tot3','coex1','coex2','coex3','alpha_star_vals','cprob')
+
+i1 = 4;
+i2 = 10;
+
+R0 = 30;
+R = 150;
+phi = astar_actual2(i1)./tot2(i1) / alphavals(i1);
+lmbda = sqrt(2)*erfinv(1-2*phi);
+
+alpha_star = astar_actual2(i1)./tot2(i1);
+alpha = alpha_star/phi;
+V_tot = (1-R0/R)*(2*(1 - alpha*I_func(lmbda))./(-alpha .*dI_func(lmbda)) - lmbda);
+x_vals = linspace(-0.2,0.2,1000);
+q = V_tot.^2.*alpha.*I_func(lmbda)*R/(R0*(1-R0/R));
+sigma_inv = sqrt(q/R)/R0;
+norm_pdf = normpdf(x_vals,0,sigma_inv);
+exp_pdf = (R0/(1-alpha_star))*exp(-(1+R0*x_vals/(1-alpha_star))).*(x_vals > -(1-alpha_star)/R0);
+
+S_inv_vals1 = conv(norm_pdf,exp_pdf,'same');
+S_inv_vals1 = flip((S_inv_vals1/sum(S_inv_vals1))/(x_vals(2)-x_vals(1)));
+
+q = V_tot.^2.*alpha.*I_func(lmbda)*R/(R0*(1-R0/R)) + R*(1-alpha_star)^2;
+S_inv_vals1B = normpdf(x_vals,0,sqrt(q/R)/R0);
+
+R0 = 30;
+R = 150;
+phi = astar_actual2(i2)./tot2(i2) / alphavals(i2);
+lmbda = sqrt(2)*erfinv(1-2*phi);
+
+alpha_star = astar_actual2(i2)./tot2(i2);
+alpha = alpha_star/phi;
+V_tot = (1-R0/R)*(2*(1 - alpha*I_func(lmbda))./(-alpha .*dI_func(lmbda)) - lmbda);
+q = V_tot.^2.*alpha.*I_func(lmbda)*R/(R0*(1-R0/R));
+sigma_inv = sqrt(q/R)/R0;
+norm_pdf = normpdf(x_vals,0,sigma_inv);
+exp_pdf = (R0/(1-alpha_star))*exp(-(1+R0*x_vals/(1-alpha_star))).*(x_vals > -(1-alpha_star)/R0);
+
+S_inv_vals2 = conv(norm_pdf,exp_pdf,'same');
+S_inv_vals2 = flip((S_inv_vals2/sum(S_inv_vals2))/(x_vals(2)-x_vals(1)));
+
+q = V_tot.^2.*alpha.*I_func(lmbda)*R/(R0*(1-R0/R)) + R*(1-alpha_star)^2;
+S_inv_vals2B = normpdf(x_vals,0,sqrt(q/R)/R0);
+
+
+figure()
+h1 = histogram(fitnesses_ko(1:ind_ko(i1,2)-1,i1,2),'Normalization','pdf');
+figure()
+h2 = histogram(fitnesses_ko(1:ind_ko(i2,2)-1,i2,2),'Normalization','pdf');
+
+%plot(x_vals,S_inv_vals1,'k--','LineWidth',1.25)
+%plot(x_vals,S_inv_vals2,'r--','LineWidth',1.25)
+
+save('Processed_Results/FigS7C_data.mat','x_vals','S_inv_vals1B','S_inv_vals2B','h1','h2')
+close all
+
+%% FIGURE S8A: DFE for Tikhonov & Monasson consumer resource model
+clear all
+R0 = 40;
+R = 200;
+phi = 0.1;
+lmbda = sqrt(2)*erfinv(1-2*phi);
+alpha_star = 0.8;
+
+alpha = alpha_star/phi;
+V_tot = (1-R0/R)*(2*(1 - alpha*I_func(lmbda))./(-alpha .*dI_func(lmbda)) - lmbda);
+epsilon = V_tot*sqrt(1 - alpha.*I_func(lmbda));
+
+m = (R/R0)*V_tot*lmbda;
+q = (R/R0)*(V_tot^2 - epsilon^2)/(1-R0/R);
+
+x_vals = linspace(-1,1,1000);
+S_inv_vals1 = normpdf(x_vals, m/R, sqrt(q/R));
+S_inv_vals2 = normpdf(x_vals, -m/R, sqrt(q/R));
+
+fitnesses_ko = zeros(200*200*1000,1);
+ind_ko = 1;
+
+fname = "Raw_Results/First_Step_Sims/metabolic_tradeoffs/sstep_astar_0.8_phi_0.1_R0_40_R_200_alttype_0.mat";
+load(fname)
+
+for i = 1:1000
+    h = harvests{i};
+    enzymes = organisms{i}.enzymesInSpecies;
+    survivors = deltas{i} > -1e-3*std(h);
+    enzymes = enzymes(survivors,:);
+    for j = 1:size(enzymes,1)
+        inv_fitness = 1 - h(~~enzymes(j,:));
+        fitnesses_ko(ind_ko:ind_ko+length(inv_fitness)-1) = inv_fitness;
+        ind_ko = ind_ko + length(inv_fitness);
+    end
+    fitnesses_ko((i-1)*200+1:i*200) = 1-harvests{i}';
+end
+fitnesses_ko = fitnesses_ko(1:ind_ko-1);
+
+edges = (-0.2:0.002:0.2);
+bins_ko = zeros(length(edges)-1,1);
+bins_ki = zeros(length(edges)-1,1);
+
+figure(5)
+h1 = histogram(fitnesses_ko,'Normalization','pdf','BinEdges',edges);
+
+figure(6)
+h2 = histogram(-fitnesses_ko,'Normalization','pdf','BinEdges',edges);
+
+save('Processed_Results/FigS8A_data.mat','edges','h1','h2','x_vals','R0','S_inv_vals1')
+close all
+
+%% FIGURE S8B: P(coex) for knockins and knockouts in Tikhonov model
+clear all
+
+coex1 = zeros(13,1);
+tot1 = zeros(13,1);
+
+coex2 = zeros(13,1);
+tot2 = zeros(13,1);
+
+
+astarvals = 0.2:0.1:0.9;
+astarvals = [astarvals 0.92 0.94 0.96 0.98 0.99];
+
+astar_actual1 = zeros(13,1);
+astar_actual2 = zeros(13,1);
+
+R0=40;
+for i = 1:13
+    fname = "Raw_Results/First_Step_Sims/metabolic_tradeoffs/sstep_astar_" + string(astarvals(i)) + "_phi_0.1_R0_40_R_200_alttype_0.mat";
+    load(fname)
+    for k = 1:size(deltas,1)
+        h = harvests{k,1};
+        d = deltas{k,2};
+        if d(end) < -1e-3*std(h(1-h>0))
+            continue
+        end
+        astar_actual1(i) = astar_actual1(i) + (length(d)-1)/200;
+        coex1(i) = coex1(i) + (d(parent_inds(k)) > -1e-3*std(h(1-h>0)));
+        tot1(i) = tot1(i) + 1;
+    end
+end
+
+for i = 1:13
+    fname = "Raw_Results/First_Step_Sims/metabolic_tradeoffs/sstep_astar_" + string(astarvals(i)) + "_phi_0.1_R0_40_R_200_alttype_1.mat";
+    load(fname)
+    for k = 1:size(deltas,1)
+        h = harvests{k,1};
+        d = deltas{k,2};
+        if d(end) < -1e-3*std(h(1-h>0))
+            continue
+        end
+        astar_actual2(i) = astar_actual2(i) + (length(d)-1)/200;
+        coex2(i) = coex2(i) + (d(parent_inds(k)) > -1e-3*std(h(1-h>0)));
+        tot2(i) = tot2(i) + 1;
+    end
+end
+
+R0 = 40;
+R = 200;
+phi = 0.1;
+lmbda = sqrt(2)*erfinv(1-2*phi);
+alpha_star_vals = 0.01:0.001:0.99;
+alpha_vals = alpha_star_vals./phi;
+V_tot = (1-R0/R)*(2*(1 - alpha_vals.*I_func(lmbda))./(-alpha_vals .*dI_func(lmbda)) - lmbda);
+m = (R/R0)*V_tot*lmbda;
+q = V_tot.^2.*alpha_vals.*I_func(lmbda)*R/(R0*(1-R0/R));
+sigma_inv = sqrt(q/R)/R0;
+dx_vals = m/(R)/R0;
+
+Csq = (V_tot./(R0^2*(1-R0/R)*sigma_inv)).^2;
+
+cprob1 = (-2*(Csq + Csq.^2) + lmbda*sqrt(2*pi)*(power(1 + Csq,2).*power(exp(1),power(lmbda,2)/2.).*erfc(lmbda/sqrt(2)) - ...
+        sqrt(1 + Csq).*power(exp(1),power(lmbda,2)./(2 + 2*Csq)).*erfc(lmbda./(sqrt(2).*sqrt(1 + Csq)))))./ ...
+   (power(1 + Csq,2).*(-2 + power(exp(1),power(lmbda,2)/2.).*lmbda*sqrt(2*pi).*erfc(lmbda/sqrt(2))));
+
+fun = @ (C,dx,sigma) (sigma.*(2.*(-power(exp(1),-power(C - dx,2)./(2..*power(sigma,2))) + power(exp(1),-power(dx,2)./(2.*power(sigma,2)))).*sigma + dx.*sqrt(2.*pi).*erf(dx./(sqrt(2).*sigma)) -... 
+       dx.*sqrt(2.*pi).*erf((-C + dx)./(sqrt(2).*sigma))))./...
+   (2.*(power(sigma,2)./power(exp(1),power(dx,2)./(2.*power(sigma,2))) + dx.*sqrt(pi./2).*sigma.*(1 + erf(dx./(sqrt(2).*sigma)))));
+
+fun2 = @ (gma, R_0, R, Vtot, lma, n, dx, sigma) (-n - lma).*exp(-n.^2./2)./(exp(-lma.^2./2)-lma.*sqrt(pi./2).*erfc(lma./sqrt(2))) .* fun(gma.^2.*Vtot.*(-n-lma)./(R_0.^2.*(1-R_0./R)), dx, sigma);
+
+pcoex_vals1 = 0*alpha_star_vals;
+pcoex_vals2 = 0*alpha_star_vals;
+pcoex_vals3 = 0*alpha_star_vals;
+for i = 1:length(alpha_star_vals)
+    pcoex_vals1(i) = integral(@(x) fun2(1,R0,R,V_tot(i),lmbda,x,dx_vals(i),sigma_inv(i)),-10,-lmbda);
+    pcoex_vals2(i) = integral(@(x) fun2(1,R0,R,V_tot(i),lmbda,x,-dx_vals(i),sigma_inv(i)),-10,-lmbda);
+    pcoex_vals3(i) = integral(@(x) fun2(1,R0,R,V_tot(i),lmbda,x,0*dx_vals(i),sigma_inv(i)),-10,-lmbda);
+end
+
+save('Processed_Results/FigS8B_data.mat','alpha_star_vals','astar_actual1','astar_actual2','pcoex_vals1','pcoex_vals2','pcoex_vals3','coex1','tot1','coex2','tot2')
+
+%% FIGURE S8C, S8D: DFE and P(Coex) for communities without metabolic tradeoffs
+clear all
+
+coex1 = zeros(10,1);
+tot1 = zeros(10,1);
+astar_actual1 = zeros(10,1);
+
+coex2 = zeros(10,1);
+tot2 = zeros(10,1);
+astar_actual2 = zeros(10,1);
+
+coex3 = zeros(10,1);
+tot3 = zeros(10,1);
+astar_actual3 = zeros(10,1);
+
+alphavals = [0.3 0.6 1.2 2.4 4.8 9.6 19.2 38.4 76.8 153.6];
+
+fitnesses_ko = zeros(200^2*1000,10,3);
+
+ind_ko = ones(10,3);
+
+R0_actual = zeros(200*1000,10,3);
+ind_R0 = ones(10,3);
+
+
+R0 = 30;
+R = 150;
+for i = 1:10
+    fname = "Raw_Results/First_Step_Sims/metabolic_tradeoffs/sstep_no_tradeoffs_alpha_" + string(alphavals(i)) + "_eps_0.1_R0_30_R_150.mat";
+    load(fname)
+    for k = 1:length(harvests)
+        h = harvests{k,1};
+        h = length(h)*h/sum(h);
+        d = deltas{k,2};
+        if d(end) < -1e-3*std(h(1-h>0))/R0
+            continue
+        end
+        astar_actual1(i) = astar_actual1(i) + (length(d)-1)/R;
+        coex1(i) = coex1(i) + (d(parent_inds(k)) > -1e-3*std(h)/R0);
+        tot1(i) = tot1(i) + 1;
+
+        if k <= length(organisms)
+
+        enzymes = logical(organisms{k,1}.enzymesInSpecies);
+        survivors = deltas{k,1} > -1e-3*std(h)/R0;
+        enzymes = enzymes(survivors,:);
+        delta_alphas_ko = enzymes.*(1./(sum(enzymes,2)-1)-1./sum(enzymes,2));
+        alphas = enzymes.*(1./sum(enzymes,2));
+        budgets = organisms{k,1}.budget;
+        budgets = budgets(survivors);
+    
+        overall_shift = sum(alphas.*h,2);
+        overall_shift = overall_shift.*exp(budgets);
+        overall_shift = -mean(log(overall_shift));
+        budgets = budgets + overall_shift;
+
+        for ind = 1:size(enzymes,1)
+            inv_fitness = sum(delta_alphas_ko(ind,:).*h);
+            inv_fitness = inv_fitness - (delta_alphas_ko(ind,find(enzymes(ind,:),1)) + 1/(sum(enzymes(ind,:))))*h(enzymes(ind,:));
+            fitnesses_ko(ind_ko(i,1):ind_ko(i,1)+length(inv_fitness)-1,i,1) = inv_fitness*exp(budgets(ind));
+            ind_ko(i,1) = ind_ko(i,1)+length(inv_fitness);
+
+            R0_actual(ind_R0(i,1),i,1) = sum(enzymes(ind,:));
+            ind_R0(i,1) = ind_R0(i,1) + 1;
+        end
+        end
+    end
+end
+
+for i = 1:10
+    fname = "Raw_Results/First_Step_Sims/metabolic_tradeoffs/sstep_no_tradeoffs_alpha_" + string(alphavals(i)) + "_eps_1_R0_30_R_150.mat";
+    load(fname)
+    for k = 1:length(harvests)
+        h = harvests{k,1};
+        h = length(h)*h/sum(h);
+        d = deltas{k,2};
+        if d(end) < -1e-3*std(h(1-h>0))/R0
+            continue
+        end
+        astar_actual2(i) = astar_actual2(i) + (length(d)-1)/R;
+        coex2(i) = coex2(i) + (d(parent_inds(k)) > -1e-3*std(h)/R0);
+        tot2(i) = tot2(i) + 1;
+
+        if k <= length(organisms)
+
+        enzymes = logical(organisms{k,1}.enzymesInSpecies);
+        survivors = deltas{k,1} > -1e-3*std(h)/R0;
+        enzymes = enzymes(survivors,:);
+        delta_alphas_ko = enzymes.*(1./(sum(enzymes,2)-1)-1./sum(enzymes,2));
+        alphas = enzymes.*(1./sum(enzymes,2));
+        budgets = organisms{k,1}.budget;
+        budgets = budgets(survivors);
+    
+        overall_shift = sum(alphas.*h,2);
+        overall_shift = overall_shift.*exp(budgets);
+        overall_shift = -mean(log(overall_shift));
+        budgets = budgets + overall_shift;
+
+        for ind = 1:size(enzymes,1)
+            inv_fitness = sum(delta_alphas_ko(ind,:).*h);
+            inv_fitness = inv_fitness - (delta_alphas_ko(ind,find(enzymes(ind,:),1)) + 1/(sum(enzymes(ind,:))))*h(enzymes(ind,:));
+            fitnesses_ko(ind_ko(i,2):ind_ko(i,2)+length(inv_fitness)-1,i,2) = inv_fitness*exp(budgets(ind));
+            ind_ko(i,2) = ind_ko(i,2)+length(inv_fitness);
+
+            R0_actual(ind_R0(i,2),i,2) = sum(enzymes(ind,:));
+            ind_R0(i,2) = ind_R0(i,2) + 1;
+        end
+        end
+    end
+end
+
+for i = 1:10
+    fname = "Raw_Results/First_Step_Sims/metabolic_tradeoffs/sstep_no_tradeoffs_alpha_" + string(alphavals(i)) + "_eps_5_R0_30_R_150.mat";
+    load(fname)
+    for k = 1:length(harvests)
+        h = harvests{k,1};
+        h = length(h)*h/sum(h);
+        d = deltas{k,2};
+        if d(end) < -1e-3*std(h(1-h>0))/R0
+            continue
+        end
+        astar_actual3(i) = astar_actual3(i) + (length(d)-1)/R;
+        coex3(i) = coex3(i) + (d(parent_inds(k)) > -1e-3*std(h)/R0);
+        tot3(i) = tot3(i) + 1;
+
+        if k <= length(organisms)
+
+        enzymes = logical(organisms{k,1}.enzymesInSpecies);
+        survivors = deltas{k,1} > -1e-3*std(h)/R0;
+        enzymes = enzymes(survivors,:);
+        delta_alphas_ko = enzymes.*(1./(sum(enzymes,2)-1)-1./sum(enzymes,2));
+        alphas = enzymes.*(1./sum(enzymes,2));
+        budgets = organisms{k,1}.budget;
+        budgets = budgets(survivors);
+    
+        overall_shift = sum(alphas.*h,2);
+        overall_shift = overall_shift.*exp(budgets);
+        overall_shift = -mean(log(overall_shift));
+        budgets = budgets + overall_shift;
+
+        for ind = 1:size(enzymes,1)
+            inv_fitness = sum(delta_alphas_ko(ind,:).*h);
+            inv_fitness = inv_fitness - (delta_alphas_ko(ind,find(enzymes(ind,:),1)) + 1/(sum(enzymes(ind,:))))*h(enzymes(ind,:));
+            fitnesses_ko(ind_ko(i,3):ind_ko(i,3)+length(inv_fitness)-1,i,3) = inv_fitness*exp(budgets(ind));
+            ind_ko(i,3) = ind_ko(i,3)+length(inv_fitness);
+
+            R0_actual(ind_R0(i,3),i,3) = sum(enzymes(ind,:));
+            ind_R0(i,3) = ind_R0(i,3) + 1;
+        end
+        end
+    end
+end
+
+fitnesses_ko = fitnesses_ko(1:max(max(ind_ko))-1,:,:);
+R0_actual = R0_actual(1:max(max(ind_R0))-1,:,:);
+
+R0 = mean(R0_actual(1:ind_R0(:,3)-1,:,3));
+N_val = 150;
+
+phi = (astar_actual2./tot2)./alphavals';
+lmbda = sqrt(2)*erfinv(1-2*phi);
+alpha_star_vals = 0.1:0.01:0.5;
+lmbda = interp1(astar_actual1./tot1,lmbda,alpha_star_vals,'linear','extrap');
+R0 = interp1(astar_actual1./tot1,R0,alpha_star_vals,'linear','extrap');
+phi = erfc(lmbda/sqrt(2))/2;
+alpha_vals = alpha_star_vals./phi;
+V_tot = (1-R0./N_val).*(2*(1 - alpha_vals.*I_func(lmbda))./(-alpha_vals .*dI_func(lmbda)) - lmbda);
+cost = 0;
+
+q = V_tot.^2.*alpha_vals.*I_func(lmbda)*N_val./(R0.*(1-R0./N_val));
+sigma_inv = sqrt(q/N_val)./R0;
+Csq = (V_tot./(R0.^2.*(1-R0./N_val).*sigma_inv)).^2;
+
+cprob = (-2.*(Csq + Csq.^2) + lmbda.*sqrt(2.*pi).*(power(1 + Csq,2).*power(exp(1),power(lmbda,2)./2.).*erfc(lmbda./sqrt(2)) - ...
+        sqrt(1 + Csq).*power(exp(1),power(lmbda,2)./(2 + 2.*Csq)).*erfc(lmbda./(sqrt(2).*sqrt(1 + Csq)))))./ ...
+   (power(1 + Csq,2).*(-2 + power(exp(1),power(lmbda,2)./2.).*lmbda.*sqrt(2.*pi).*erfc(lmbda./sqrt(2))));
+
+ind1 = 3;
+ind2 = 10;
+
+R0 = mean(R0_actual(1:ind_R0(ind1,2)-1,ind1,2));
+R = 150;
+phi = astar_actual2(ind1)./tot2(ind1) / alphavals(ind1);
+lmbda = sqrt(2)*erfinv(1-2*phi);
+
+alpha_star = astar_actual2(ind1)./tot2(ind1);
+alpha = alpha_star/phi;
+V_tot = (1-R0/R)*(2*(1 - alpha*I_func(lmbda))./(-alpha .*dI_func(lmbda)) - lmbda);
+x_vals = linspace(-0.2,0.2,1000);
+q = V_tot.^2.*alpha.*I_func(lmbda)*R/(R0*(1-R0/R));
+sigma_inv = sqrt(q/R)/R0;
+S_inv_vals1 = normpdf(x_vals,0,sigma_inv);
+
+R0 = mean(R0_actual(1:ind_R0(ind2,2)-1,ind2,2));
+R = 150;
+phi = astar_actual2(ind2)./tot2(ind2) / alphavals(ind2);
+lmbda = sqrt(2)*erfinv(1-2*phi);
+
+alpha_star = astar_actual2(ind2)./tot2(ind2);
+alpha = alpha_star/phi;
+V_tot = (1-R0/R)*(2*(1 - alpha*I_func(lmbda))./(-alpha .*dI_func(lmbda)) - lmbda);
+x_vals = linspace(-0.2,0.2,1000);
+q = V_tot.^2.*alpha.*I_func(lmbda)*R/(R0*(1-R0/R));
+sigma_inv = sqrt(q/R)/R0;
+S_inv_vals2 = normpdf(x_vals,0,sigma_inv);
+
+
+figure()
+h1 = histogram(fitnesses_ko(1:ind_ko(ind1,2)-1,ind1,2),'Normalization','pdf');
+figure()
+h2 = histogram(fitnesses_ko(1:ind_ko(ind2,2)-1,ind2,2),'Normalization','pdf');
+
+figure()
+plot((h1.BinEdges(1:end-1)+h1.BinEdges(2:end))/2,h1.Values,'k.','MarkerSize',10)
+hold on
+plot((h2.BinEdges(1:end-1)+h2.BinEdges(2:end))/2,h2.Values,'r.','MarkerSize',10)
+
+%plot((h1B.BinEdges(1:end-1)+h1B.BinEdges(2:end))/2,h1B.Values,'kx','MarkerSize',2)
+%hold on
+%plot((h2B.BinEdges(1:end-1)+h2B.BinEdges(2:end))/2,h2B.Values,'rx','MarkerSize',2)
+
+save('Processed_Results/FigS8C_data.mat','h1','h2','x_vals','S_inv_vals1','S_inv_vals2','-v7.3')
+save('Processed_Results/FigS8D_data.mat','astar_actual1','astar_actual2','astar_actual3','tot1','tot2','tot3','coex1','coex2','coex3','alpha_star_vals','cprob','-v7.3')
+
+close all
+
+
+%% FIGURE S9A: P(Coex) for parent using R_P resources
+clear all
+
+coex2 = zeros(14,1);
+tot2 = zeros(14,1);
+
+Rp_vals = 10:10:140;
+
+astar_actual1 = zeros(9,1);
+astar_actual2 = zeros(14,1);
+
+R0=40;
+for i = 1:14
+    fname = "Raw_Results/First_Step_Sims/R0_variation/sstep_astar_0.8_phi_0.1_R0_40_R_200_Rp_" + string(Rp_vals(i))+ ".mat";
     load(fname)
     for k = 1:size(deltas,1)
         h = harvests{k,1};
@@ -1991,35 +2861,12 @@ lmbda = sqrt(2)*erfinv(1-2*phi);
 alpha_star_vals = 0.8;
 alpha_vals = alpha_star_vals./phi;
 V_tot = (1-R0/N_val)*(2*(1 - alpha_vals.*I_func(lmbda))./(-alpha_vals .*dI_func(lmbda)) - lmbda);
-cost = 0;
-sigmaR2_vals = 0:0.001:0.095;
-
-q = V_tot.^2.*alpha_vals.*I_func(lmbda)*N_val/(R0*(1-R0/N_val)) + N_val*sigmaR2_vals.*(1-alpha_star_vals).^2;
-sigma_inv = sqrt(q/N_val)/R0;
-Csq = (V_tot./(R0^2*(1-R0/N_val)*sigma_inv)).^2;
-
-cprob = (-2*(Csq + Csq.^2) + lmbda*sqrt(2*pi)*(power(1 + Csq,2).*power(exp(1),power(lmbda,2)/2.).*erfc(lmbda/sqrt(2)) - ...
-        sqrt(1 + Csq).*power(exp(1),power(lmbda,2)./(2 + 2*Csq)).*erfc(lmbda./(sqrt(2).*sqrt(1 + Csq)))))./ ...
-   (power(1 + Csq,2).*(-2 + power(exp(1),power(lmbda,2)/2.).*lmbda*sqrt(2*pi).*erfc(lmbda/sqrt(2))));
-
-save('Processed_Results/FigS6A_data','coex1','tot1','sigmaR2_vals','cprob');
-
-R0 = 40;
-N_val = 200;
-
-phi = 0.1;
-lmbda = sqrt(2)*erfinv(1-2*phi);
-alpha_star_vals = 0.8;
-alpha_vals = alpha_star_vals./phi;
-V_tot = (1-R0/N_val)*(2*(1 - alpha_vals.*I_func(lmbda))./(-alpha_vals .*dI_func(lmbda)) - lmbda);
 q = V_tot.^2.*alpha_vals.*I_func(lmbda)*N_val/(R0*(1-R0/N_val));
 
 eps_sq = V_tot^2 - q*R0*(1-R0/N_val)/N_val;
 Rp_vals = 3:197;
 
 V_P = sqrt(eps_sq + R0^2.*(1-Rp_vals/N_val)*q./(N_val*Rp_vals));
-
-
 
 C = V_P./(R0*(1-Rp_vals/N_val)*sqrt(q/N_val));
 L = lmbda*V_tot./V_P;
@@ -2029,9 +2876,350 @@ cprob = (-2.*power(C,2).*sqrt(1 + power(C,2)).*power(exp(1),((1 + 2.*power(C,2))
         power(exp(1),((2 + 3.*power(C,2) + 2.*power(C,4)).*power(L,2))./(2..*(1 + power(C,2)))).*erfc(L./(sqrt(2).*sqrt(1 + power(C,2))))))./...
    (power(1 + power(C,2),1.5).*power(exp(1),((1 + 2.*power(C,2)).*power(L,2))./2.).*(-2 + power(exp(1),power(L,2)./2.).*L.*sqrt(2.*pi).*erfc(L./sqrt(2))));
 
-save('Processed_Results/FigS6B_data','coex2','tot2','Rp_vals','cprob');
+save('Processed_Results/FigS9A_data','coex2','tot2','Rp_vals','cprob');
 
-%% FIGURE S7: Checks for numerical consistency
+%% FIGURE S9B, S9C, S9D: Uniform distribution of R0
+
+clear all
+
+coex1 = zeros(10,1);
+tot1 = zeros(10,1);
+astar_actual1 = zeros(10,1);
+
+coex2 = zeros(10,1);
+tot2 = zeros(10,1);
+astar_actual2 = zeros(10,1);
+
+coex3 = zeros(10,1);
+tot3 = zeros(10,1);
+astar_actual3 = zeros(10,1);
+
+alphavals = [0.3 0.6 1.2 2.4 4.8 9.6 19.2 38.4 76.8 153.6];
+
+fitnesses_ko = zeros(200^2*1000,10,3);
+R0_actual = zeros(200*1000,10,3);
+RP_actual = zeros(200*1000,10,3);
+coex_flag = zeros(200*1000,10,3);
+
+ind_ko = ones(10,3);
+ind_R0 = ones(10,3);
+ind_RP = ones(10,3);
+
+
+R0=(20+130)/2;
+R = 150;
+for i = 1:10
+    fname = "Raw_Results/First_Step_Sims/R0_variation/sstep_wide_R0_variation_alpha_" + string(alphavals(i)) + "_eps_0.1_R0_20_to_130_R_150.mat";
+    load(fname)
+    for k = 1:length(harvests)
+        h = harvests{k,1};
+        h = length(h)*h/sum(h);
+        d = deltas{k,2};
+        if d(end) < -1e-3*std(h(1-h>0))/R0
+            continue
+        end
+        astar_actual1(i) = astar_actual1(i) + (length(d)-1)/R;
+        coex1(i) = coex1(i) + (d(parent_inds(k)) > -1e-3*std(h)/R0);
+        tot1(i) = tot1(i) + 1;
+
+        surv_R0s = R0s{k,2};
+        surv_R0s = surv_R0s(1:end-1);
+        R0_actual(ind_R0(i,1):ind_R0(i,1)+length(surv_R0s)-1,i,1) = surv_R0s;
+        ind_R0(i,1) = ind_R0(i,1) + length(surv_R0s);
+
+        RP_actual(ind_RP(i,1),i,1) = surv_R0s(parent_inds(k));
+        coex_flag(ind_RP(i,1),i,1) = (d(parent_inds(k)) > -1e-3*std(h)/R0);
+        ind_RP(i,1) = ind_RP(i,1) + 1;
+
+        if k <= length(organisms)
+            enzymes = logical(organisms{k,1}.enzymesInSpecies);
+            survivors = deltas{k,1} > -1e-3*std(h)/R0;
+            enzymes = enzymes(survivors,:);
+            delta_alphas_ko = enzymes.*(1./(sum(enzymes,2)-1)-1./sum(enzymes,2));
+            alphas = enzymes.*(1./sum(enzymes,2));
+            budgets = organisms{k,1}.budget;
+            budgets = budgets(survivors);
+        
+            overall_shift = sum(alphas.*h,2);
+            overall_shift = overall_shift.*exp(budgets);
+            overall_shift = -mean(log(overall_shift));
+            budgets = budgets + overall_shift;
+
+            for ind = 1:size(enzymes,1)
+                inv_fitness = sum(delta_alphas_ko(ind,:).*h);
+                inv_fitness = inv_fitness - (delta_alphas_ko(ind,find(enzymes(ind,:),1)) + 1/(sum(enzymes(ind,:))))*h(enzymes(ind,:));
+                fitnesses_ko(ind_ko(i,1):ind_ko(i,1)+length(inv_fitness)-1,i,1) = inv_fitness*exp(budgets(ind));
+                ind_ko(i,1) = ind_ko(i,1)+length(inv_fitness);
+            end
+        end
+    end
+end
+
+
+R0=(20+130)/2;
+R = 150;
+for i = 1:10
+    fname = "Raw_Results/First_Step_Sims/R0_variation/sstep_wide_R0_variation_alpha_" + string(alphavals(i)) + "_eps_1_R0_20_to_130_R_150.mat";
+    load(fname)
+    for k = 1:length(harvests)
+        h = harvests{k,1};
+        h = length(h)*h/sum(h);
+        d = deltas{k,2};
+        if d(end) < -1e-3*std(h(1-h>0))/R0
+            continue
+        end
+        astar_actual2(i) = astar_actual2(i) + (length(d)-1)/R;
+        coex2(i) = coex2(i) + (d(parent_inds(k)) > -1e-3*std(h)/R0);
+        tot2(i) = tot2(i) + 1;
+
+        surv_R0s = R0s{k,2};
+        surv_R0s = surv_R0s(1:end-1);
+        R0_actual(ind_R0(i,2):ind_R0(i,2)+length(surv_R0s)-1,i,2) = surv_R0s;
+        ind_R0(i,2) = ind_R0(i,2) + length(surv_R0s);
+
+        RP_actual(ind_RP(i,2),i,2) = surv_R0s(parent_inds(k));
+        coex_flag(ind_RP(i,2),i,2) = (d(parent_inds(k)) > -1e-3*std(h)/R0);
+        ind_RP(i,2) = ind_RP(i,2) + 1;
+
+        if k <= length(organisms)
+            enzymes = logical(organisms{k,1}.enzymesInSpecies);
+            survivors = deltas{k,1} > -1e-3*std(h)/R0;
+            enzymes = enzymes(survivors,:);
+            delta_alphas_ko = enzymes.*(1./(sum(enzymes,2)-1)-1./sum(enzymes,2));
+            alphas = enzymes.*(1./sum(enzymes,2));
+            budgets = organisms{k,1}.budget;
+            budgets = budgets(survivors);
+        
+            overall_shift = sum(alphas.*h,2);
+            overall_shift = overall_shift.*exp(budgets);
+            overall_shift = -mean(log(overall_shift));
+            budgets = budgets + overall_shift;
+
+            for ind = 1:size(enzymes,1)
+                inv_fitness = sum(delta_alphas_ko(ind,:).*h);
+                inv_fitness = inv_fitness - (delta_alphas_ko(ind,find(enzymes(ind,:),1)) + 1/(sum(enzymes(ind,:))))*h(enzymes(ind,:));
+                fitnesses_ko(ind_ko(i,2):ind_ko(i,2)+length(inv_fitness)-1,i,2) = inv_fitness*exp(budgets(ind));
+                ind_ko(i,2) = ind_ko(i,2)+length(inv_fitness);
+            end
+        end
+    end
+end
+
+
+R0=(20+130)/2;
+R = 150;
+for i = 1:10
+    fname = "Raw_Results/First_Step_Sims/R0_variation/sstep_wide_R0_variation_alpha_" + string(alphavals(i)) + "_eps_5_R0_20_to_130_R_150.mat";
+    load(fname)
+    for k = 1:length(harvests)
+        h = harvests{k,1};
+        h = length(h)*h/sum(h);
+        d = deltas{k,2};
+        if d(end) < -1e-3*std(h(1-h>0))/R0
+            continue
+        end
+        astar_actual3(i) = astar_actual3(i) + (length(d)-1)/R;
+        coex3(i) = coex3(i) + (d(parent_inds(k)) > -1e-3*std(h)/R0);
+        tot3(i) = tot3(i) + 1;
+
+        surv_R0s = R0s{k,2};
+        surv_R0s = surv_R0s(1:end-1);
+        R0_actual(ind_R0(i,3):ind_R0(i,3)+length(surv_R0s)-1,i,3) = surv_R0s;
+        ind_R0(i,3) = ind_R0(i,3) + length(surv_R0s);
+
+        RP_actual(ind_RP(i,3),i,3) = surv_R0s(parent_inds(k));
+        coex_flag(ind_RP(i,3),i,3) = (d(parent_inds(k)) > -1e-3*std(h)/R0);
+        ind_RP(i,3) = ind_RP(i,3) + 1;
+
+        if k <= length(organisms)
+            enzymes = logical(organisms{k,1}.enzymesInSpecies);
+            survivors = deltas{k,1} > -1e-3*std(h)/R0;
+            enzymes = enzymes(survivors,:);
+            delta_alphas_ko = enzymes.*(1./(sum(enzymes,2)-1)-1./sum(enzymes,2));
+            alphas = enzymes.*(1./sum(enzymes,2));
+            budgets = organisms{k,1}.budget;
+            budgets = budgets(survivors);
+        
+            overall_shift = sum(alphas.*h,2);
+            overall_shift = overall_shift.*exp(budgets);
+            overall_shift = -mean(log(overall_shift));
+            budgets = budgets + overall_shift;
+
+            for ind = 1:size(enzymes,1)
+                inv_fitness = sum(delta_alphas_ko(ind,:).*h);
+                inv_fitness = inv_fitness - (delta_alphas_ko(ind,find(enzymes(ind,:),1)) + 1/(sum(enzymes(ind,:))))*h(enzymes(ind,:));
+                fitnesses_ko(ind_ko(i,3):ind_ko(i,3)+length(inv_fitness)-1,i,3) = inv_fitness*exp(budgets(ind));
+                ind_ko(i,3) = ind_ko(i,3)+length(inv_fitness);
+            end
+        end
+    end
+end
+
+fitnesses_ko = fitnesses_ko(1:max(max(ind_ko))-1,:,:);
+
+R0_actual = R0_actual(1:max(max(ind_R0))-1,:,:);
+RP_actual = RP_actual(1:max(max(ind_RP))-1,:,:);
+coex_flag = coex_flag(1:max(max(ind_RP))-1,:,:);
+
+N_val = 150;
+alpha_star_vals = 0.1:0.01:0.25;
+R0 = mean(R0_actual(1:ind_R0(:,3)-1,:,3));
+R0 = interp1(astar_actual3./tot3,R0,alpha_star_vals,'linear','extrap');
+Rp_vals = mean(RP_actual(1:ind_RP(:,3)-1,:,3));
+Rp_vals = interp1(astar_actual3./tot3,Rp_vals,alpha_star_vals,'linear','extrap');
+phi = (astar_actual3./tot3)./alphavals';
+lmbda = sqrt(2)*erfinv(1-2*phi);
+lmbda = interp1(astar_actual3./tot3,lmbda,alpha_star_vals,'linear','extrap');
+phi = erfc(lmbda/sqrt(2))/2;
+
+
+alpha_vals = alpha_star_vals./phi;
+V_tot = (1-R0/N_val).*(2.*(1 - alpha_vals.*I_func(lmbda))./(-alpha_vals .*dI_func(lmbda)) - lmbda);
+q = V_tot.^2.*alpha_vals.*I_func(lmbda).*N_val./(R0.*(1-R0./N_val));
+eps_sq = V_tot.^2 - q.*R0.*(1-R0./N_val)./N_val;
+
+V_P = sqrt(eps_sq + R0.^2.*(1-Rp_vals/N_val).*q./(N_val*Rp_vals));
+
+
+
+C = V_P./(R0.*(1-Rp_vals./N_val).*sqrt(q/N_val));
+L = lmbda.*V_tot./V_P;
+
+cprob = (-2.*power(C,2).*sqrt(1 + power(C,2)).*power(exp(1),((1 + 2.*power(C,2)).*power(L,2))./2.) + ...
+     L.*sqrt(2.*pi).*(power(1 + power(C,2),1.5).*power(exp(1),(1 + power(C,2)).*power(L,2)).*erfc(L./sqrt(2)) - ...
+        power(exp(1),((2 + 3.*power(C,2) + 2.*power(C,4)).*power(L,2))./(2..*(1 + power(C,2)))).*erfc(L./(sqrt(2).*sqrt(1 + power(C,2))))))./...
+   (power(1 + power(C,2),1.5).*power(exp(1),((1 + 2.*power(C,2)).*power(L,2))./2.).*(-2 + power(exp(1),power(L,2)./2.).*L.*sqrt(2.*pi).*erfc(L./sqrt(2))));
+
+alpha_star_vals1 = alpha_star_vals;
+cprob1 = cprob;
+
+N_val = 150;
+alpha_star_vals = 0.15:0.01:0.7;
+R0 = mean(R0_actual(1:ind_R0(:,2)-1,:,2));
+R0 = interp1(astar_actual2./tot2,R0,alpha_star_vals,'linear','extrap');
+Rp_vals = mean(RP_actual(1:ind_RP(:,2)-1,:,2));
+Rp_vals = interp1(astar_actual2./tot2,Rp_vals,alpha_star_vals,'linear','extrap');
+phi = (astar_actual2./tot2)./alphavals';
+lmbda = sqrt(2)*erfinv(1-2*phi);
+lmbda = interp1(astar_actual2./tot2,lmbda,alpha_star_vals,'linear','extrap');
+phi = erfc(lmbda/sqrt(2))/2;
+
+
+alpha_vals = alpha_star_vals./phi;
+V_tot = (1-R0/N_val).*(2.*(1 - alpha_vals.*I_func(lmbda))./(-alpha_vals .*dI_func(lmbda)) - lmbda);
+q = V_tot.^2.*alpha_vals.*I_func(lmbda).*N_val./(R0.*(1-R0./N_val));
+eps_sq = V_tot.^2 - q.*R0.*(1-R0./N_val)./N_val;
+
+V_P = sqrt(eps_sq + R0.^2.*(1-Rp_vals/N_val).*q./(N_val*Rp_vals));
+
+
+
+C = V_P./(R0.*(1-Rp_vals./N_val).*sqrt(q/N_val));
+L = lmbda.*V_tot./V_P;
+
+cprob = (-2.*power(C,2).*sqrt(1 + power(C,2)).*power(exp(1),((1 + 2.*power(C,2)).*power(L,2))./2.) + ...
+     L.*sqrt(2.*pi).*(power(1 + power(C,2),1.5).*power(exp(1),(1 + power(C,2)).*power(L,2)).*erfc(L./sqrt(2)) - ...
+        power(exp(1),((2 + 3.*power(C,2) + 2.*power(C,4)).*power(L,2))./(2..*(1 + power(C,2)))).*erfc(L./(sqrt(2).*sqrt(1 + power(C,2))))))./...
+   (power(1 + power(C,2),1.5).*power(exp(1),((1 + 2.*power(C,2)).*power(L,2))./2.).*(-2 + power(exp(1),power(L,2)./2.).*L.*sqrt(2.*pi).*erfc(L./sqrt(2))));
+
+alpha_star_vals2 = alpha_star_vals;
+cprob2 = cprob;
+
+
+N_val = 150;
+alpha_star_vals = 0.25:0.01:0.99;
+R0 = mean(R0_actual(1:ind_R0(:,1)-1,:,1));
+R0 = interp1(astar_actual1./tot1,R0,alpha_star_vals,'linear','extrap');
+Rp_vals = mean(RP_actual(1:ind_RP(:,1)-1,:,1));
+Rp_vals = interp1(astar_actual1./tot1,Rp_vals,alpha_star_vals,'linear','extrap');
+phi = (astar_actual1./tot1)./alphavals';
+lmbda = sqrt(2)*erfinv(1-2*phi);
+lmbda = interp1(astar_actual1./tot1,lmbda,alpha_star_vals,'linear','extrap');
+phi = erfc(lmbda/sqrt(2))/2;
+
+
+alpha_vals = alpha_star_vals./phi;
+V_tot = (1-R0/N_val).*(2.*(1 - alpha_vals.*I_func(lmbda))./(-alpha_vals .*dI_func(lmbda)) - lmbda);
+q = V_tot.^2.*alpha_vals.*I_func(lmbda).*N_val./(R0.*(1-R0./N_val));
+eps_sq = V_tot.^2 - q.*R0.*(1-R0./N_val)./N_val;
+
+V_P = sqrt(eps_sq + R0.^2.*(1-Rp_vals/N_val).*q./(N_val*Rp_vals));
+
+
+
+C = V_P./(R0.*(1-Rp_vals./N_val).*sqrt(q/N_val));
+L = lmbda.*V_tot./V_P;
+
+cprob = (-2.*power(C,2).*sqrt(1 + power(C,2)).*power(exp(1),((1 + 2.*power(C,2)).*power(L,2))./2.) + ...
+     L.*sqrt(2.*pi).*(power(1 + power(C,2),1.5).*power(exp(1),(1 + power(C,2)).*power(L,2)).*erfc(L./sqrt(2)) - ...
+        power(exp(1),((2 + 3.*power(C,2) + 2.*power(C,4)).*power(L,2))./(2..*(1 + power(C,2)))).*erfc(L./(sqrt(2).*sqrt(1 + power(C,2))))))./...
+   (power(1 + power(C,2),1.5).*power(exp(1),((1 + 2.*power(C,2)).*power(L,2))./2.).*(-2 + power(exp(1),power(L,2)./2.).*L.*sqrt(2.*pi).*erfc(L./sqrt(2))));
+
+
+alpha_star_vals3 = alpha_star_vals;
+cprob3 = cprob;
+
+save('Processed_Results/FigS9B_data','cprob1','cprob2','cprob3','alpha_star_vals1','alpha_star_vals2','alpha_star_vals3','astar_actual1','astar_actual2','astar_actual3','coex1','coex2','coex3','tot1','tot2','tot3');
+
+ind1=5;
+
+h1=histogram(R0_actual(1:ind_R0(ind1,1)-1,ind1,1),'Normalization','pdf','BinEdges',1:150);
+figure()
+h2=histogram(RP_actual(1:ind_RP(ind1,1)-1,ind1,1),'Normalization','pdf','BinEdges',1:150);
+
+save('Processed_Results/FigS9C_data','h1','h2');
+close all
+i1 = 1;
+i2 = 5;
+
+R0 = mean(R0_actual(1:ind_R0(i1,1)-1,i1,1));
+RP = mean(RP_actual(1:ind_RP(i1,1)-1,i1,1));
+R = 150;
+phi = astar_actual1(i1)./tot1(i1) / alphavals(i1);
+lmbda = sqrt(2)*erfinv(1-2*phi);
+
+alpha_star = astar_actual1(i1)./tot1(i1);
+alpha = alpha_star/phi;
+
+V_tot = (1-R0/R)*(2*(1 - alpha*I_func(lmbda))./(-alpha .*dI_func(lmbda)) - lmbda);
+x_vals = linspace(-0.05,0.05,10000);
+q = V_tot.^2.*alpha.*I_func(lmbda)*R/(R0*(1-R0/R));
+S_inv_vals1 = normpdf(x_vals,0,sqrt(q/R)/RP);
+
+
+h1=histogram(RP_actual(1:ind_RP(i1,1)-1,i1,1),'Normalization','pdf','BinEdges',1:150);
+sigma = sqrt(q/R)./(1:149)';
+S_inv_vals1 = sum((1./(sigma*sqrt(2*pi))).*exp(-x_vals.^2./(2*sigma.^2)).*h1.Values');
+
+
+R0 = mean(R0_actual(1:ind_R0(i2,1)-1,i2,1));
+RP = mean(RP_actual(1:ind_RP(i2,1)-1,i2,1));
+R = 150;
+phi = astar_actual1(i2)./tot1(i2) / alphavals(i2);
+lmbda = sqrt(2)*erfinv(1-2*phi);
+
+alpha_star = astar_actual1(i2)./tot1(i2);
+alpha = alpha_star/phi;
+V_tot = (1-R0/R)*(2*(1 - alpha*I_func(lmbda))./(-alpha .*dI_func(lmbda)) - lmbda);
+x_vals = linspace(-0.05,0.05,10000);
+q = V_tot.^2.*alpha.*I_func(lmbda)*R/(R0*(1-R0/R));
+S_inv_vals2 = normpdf(x_vals,0,sqrt(q/R)/RP);
+
+h1=histogram(RP_actual(1:ind_RP(i2,1)-1,i2,1),'Normalization','pdf','BinEdges',1:150);
+sigma = sqrt(q/R)./(1:149)';
+S_inv_vals2 = sum((1./(sigma*sqrt(2*pi))).*exp(-x_vals.^2./(2*sigma.^2)).*h1.Values');
+
+
+figure()
+h1 = histogram(fitnesses_ko(1:ind_ko(i1,1)-1,i1,1),'Normalization','pdf');
+figure()
+h2 = histogram(fitnesses_ko(1:ind_ko(i2,1)-1,i2,1),'Normalization','pdf');
+
+save('Processed_Results/FigS9D_data','S_inv_vals1','S_inv_vals2','x_vals','h1','h2');
+close all
+
+
+%% FIGURE S10: Checks for numerical consistency
 clear all
 
 astarvals = [0.5 0.8 0.99];
@@ -2050,7 +3238,7 @@ R0=40;
 for i = 1:3
     fname = "Raw_Results/First_Step_Sims/knockout/sstep_astar_" + string(astarvals(i)) + "_phi_0.1_R0_40_R_200_dx_0_sigmaR2_0_muttype_-1.mat";
     load(fname)
-    for k = 1:length(harvests)
+    for k = 1:10000
         h = harvests{k,1};
         d = deltas{k,2};
         if d(end) < -1e-3*std(h(1-h>0))/R0
@@ -2075,8 +3263,8 @@ for i = 1:3
     end
 end
 
-save('Processed_Results/FigS7_data','threshold_vals','putative_survivors','tots','all_deltas','ext_flags','par_flags');
-toc
+save('Processed_Results/FigS10_data','threshold_vals','putative_survivors','tots','all_deltas','ext_flags','par_flags');
+
 
 function L = lmbda_func(lmbda, alpha, epsilon, R0, R)
     V_tot = (1-R0/R)*(2*(1 - alpha.*I_func(lmbda))./(-alpha .*dI_func(lmbda)) - lmbda);
@@ -2113,4 +3301,58 @@ function depth = tree_depth(ind, gen, species_present, species_info)
     for i = 1:length(daughter_species)
         depth = max(depth, species_info(daughter_species(i),1)-gen+tree_depth(daughter_species(i),species_info(daughter_species(i),1),species_present,species_info));
     end
+end
+
+function [t_out,n,c] = log_community_dynamics(S,r,capacity,avg_supply,h_max,c_half)
+
+    n0 = random('uniform',0,1,[S,1]);
+    n0 = log((avg_supply/10)*(n0/sum(n0)));
+    c0 = avg_supply*capacity/mean(capacity);
+
+    R = length(c0);
+    r0 = r;
+    death_flag = false(S,1);
+
+    [t_out,y_out] = ode45(@(t,y) f(y),[0 10^2], [n0; c0]);
+    
+
+    for i = 3:6
+        y0 = y_out(end,:);
+        n0 = y0(1:S);
+        c0 = y0(S+1:end);
+
+        death_flag(n0 < -35) = 1;
+        n0 = n0(~death_flag);
+        r0 = r(~death_flag,:);
+
+        [tnext,ynext] = ode15s(@(t,y) f(y),[10^(i-1) 10^i],[n0 c0]);
+
+        t_out = [t_out; tnext];
+
+        n_next = -Inf*ones(length(tnext),S);
+        n_next(:,~death_flag) = ynext(:,1:end-R);
+
+        y_out = [y_out; [n_next ynext(:,end-R+1:end)]];
+    end
+
+    n = exp(y_out(:,1:S));
+    c = y_out(:,S+1:end);
+
+    
+    function dy = f(y)
+        n = y(1:end-R);
+        c = y(end-R+1:end);
+
+        dy = 0*y;
+        dy(1:end-R) = sum(r0.*harvest(c,h_max,c_half)',2) - 1;
+        dy(end-R+1:end) = avg_supply*capacity/mean(capacity) - harvest(c,h_max,c_half).*sum(r0.*exp(n))' - c;
+
+        if sum(isnan(dy)) > 0
+            isnan(dy)
+        end
+    end
+end
+
+function h = harvest(c,h_max,c_half)
+    h = h_max*c./(c_half + c);
 end

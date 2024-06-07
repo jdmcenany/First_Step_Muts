@@ -72,10 +72,10 @@ p2=plot(alpha_star,sigma_inv2*10^(3/2),'Color',[0 0.5 0],'LineWidth',1.75);
 plot(alpha_star,sigma_inv3*100^(3/2),'k','LineWidth',1.75)
 plot(alpha_star,sigma_inv4*100^(3/2),'Color',[0 0.5 0])
 
-p3=plot(astar_actual(4:end,1,1),sigma_invs(4:end,1,1)*10^(3/2),'ko','MarkerSize',6);
-p4=plot(astar_actual(:,2,1),sigma_invs(:,2,1)*100^(3/2),'k.','MarkerSize',25);
-plot(astar_actual(4:end,1,2),sigma_invs(4:end,1,2)*10^(3/2),'o','Color',[0 0.5 0],'MarkerSize',6)
-plot(astar_actual(:,2,2),sigma_invs(:,2,2)*100^(3/2),'.','Color',[0 0.5 0],'MarkerSize',20)
+p3=plot(astar_vals,sigma_invs(:,1,1)*10^(3/2),'ko','MarkerSize',6);
+p4=plot(astar_vals,sigma_invs(:,2,1)*100^(3/2),'k.','MarkerSize',25);
+plot(astar_vals,sigma_invs(:,1,2)*10^(3/2),'o','Color',[0 0.5 0],'MarkerSize',6)
+plot(astar_vals,sigma_invs(:,2,2)*100^(3/2),'.','Color',[0 0.5 0],'MarkerSize',20)
 
 set(gca,'YScale','log')
 set(gca,'FontSize',20)
@@ -96,7 +96,7 @@ colors = [0.5 1 0.5].*(0:0.25:1)';
 for i = 1:5
     plot(alpha_star,corr_theory(i,:),'Color',colors(i,:),'LineWidth',1.75)
     hold on
-    plot(astar_actual(:,i),all_corrs(:,i),'k.','MarkerSize',20)
+    plot(astarvals,all_corrs(:,i),'k.','MarkerSize',20)
 end
 
 ylabel('Mono.-comm. correlation','FontSize',25)
@@ -424,7 +424,7 @@ load('Processed_Results/Fig5B_data.mat')
 figure()
 
 
-for i = 1:size(N_species,1)
+for i = 1:9
     subplot(1,2,2)
     plot(N_strains(i,1:find(~N_strains(i,:),1)-1) - N_species(i,1:find(~N_species(i,:),1)-1),'Color',[0.5 0.5 0.5],'LineWidth',0.75)
     hold on
