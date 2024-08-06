@@ -25,9 +25,9 @@ generate_figures.m
 
 Each section will produce a panel of each figure, reading in data from the Processed_Results folder. Runtime should be less than a minute.
 
-GOOGLE DRIVE DATA DIRECTORY:
+ZENODO DATA DIRECTORY:
 
-https://drive.google.com/drive/folders/16TcTOPIe_2_bj7xwDlMVFV0MQIGzzt-d
+https://zenodo.org/records/13207468
 
 Raw_Results/
 
